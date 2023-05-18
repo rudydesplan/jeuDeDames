@@ -36,9 +36,6 @@ import javax.swing.JOptionPane;
  * l'Arbitre qui verifie que la partie n'est pas termine, si le coup est
  * valable, determine les coups obligatoires, etc.
  * 
- * @todo BUG : quand on une dame s'arrete sur la range adverse, alors en
- *       annulant le coup On la transforme en pion
- * 
  * @author rudy
  */
 public class Arbitre {
@@ -149,9 +146,6 @@ public class Arbitre {
      * 
      * @param joueur
      *            Joueur qui veut annuler son dernier coup.
-     * @todo BUG : quand on une dame s'arrete sur la range adverse, alors en
-     *       annulant le coup on la transforme en pion
-     *  
      */
     public void annulerCoup(Joueur joueur) {
         if (coupCourant != null) {
@@ -192,7 +186,12 @@ public class Arbitre {
                     }
                     //Verification qu'il n'y a pas eu de promotion
                     if (caseArrivee != null) {
-                        if (caseArrivee.getLigne() == 0 && caseArrivee.getPiece().getCouleur() == Piece.BLANC) {
+                        if (caseArrivee.getPiece() instanceof Dame) {  // Ajoute une vérification pour voir si la pièce est une Dame
+                            Dame d = new Dame(caseArrivee.getPiece().getCouleur(), caseDebut, plateau, r.getJoueur());
+                            d.deplacer(caseDebut);
+                            r.getJoueur().removePiece(caseArrivee.getPiece());
+                            caseArrivee.remove();
+                        } else if (caseArrivee.getLigne() == 0 && caseArrivee.getPiece().getCouleur() == Piece.BLANC) {
                             Pion p = new Pion(Piece.BLANC, caseDebut, plateau, r.getJoueur());
                             p.deplacer(caseDebut);
                             r.getJoueur().removePiece(caseArrivee.getPiece());
