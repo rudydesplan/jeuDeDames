@@ -127,6 +127,6 @@ public class Humain extends Joueur {
      * @return chaine de la forme : H:NomDuJoueur
      */
     public String toString() {
-        return "H:"+ nom;
+        return "Humain:"+ nom;
     }
 }

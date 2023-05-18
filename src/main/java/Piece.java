@@ -207,6 +207,7 @@ public abstract class Piece extends JComponent {
      * M�thode qui dessine la piece.
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
@@ -229,6 +230,7 @@ public abstract class Piece extends JComponent {
      * @param w Abscisse de la fen�tre
      * @param h ordonn�e de la fen�tre
      */
+    @Override
     public void setLocation(int w,int h) {
         x = w;
         y = h;
@@ -250,6 +252,7 @@ public abstract class Piece extends JComponent {
      * 
      * @return retourne une description de la piece sous forme de cha�ne
      */
+    @Override
     public abstract String toString();
     
 }

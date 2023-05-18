@@ -84,7 +84,7 @@ public class Ordinateur extends Joueur {
         }
         
         for(int i=0; i<pieces.size(); i++) {
-            Piece p = (Piece) pieces.elementAt(i);
+            Piece p = pieces.elementAt(i);
             Case c = null;
             if( (c=p.casePossible())!=null) {
                 Rafle r = new Rafle(p.getPosition(),null,this);
@@ -118,6 +118,7 @@ public class Ordinateur extends Joueur {
      * Associe un <code>JoueurPanel</code> au joueur
      * @param p la panel associe
      */
+    @Override
     public void setPanel(JoueurPanel p) {
         super.setPanel(p);
         panel.hideButton();

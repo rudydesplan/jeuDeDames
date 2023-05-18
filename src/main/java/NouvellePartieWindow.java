@@ -155,10 +155,7 @@ public class NouvellePartieWindow extends JDialog{
         String j2 = j2Nom.getText();
         int min;
         
-        if(!nomCorrect(j1))
-            return false;
-        
-        if(!nomCorrect(j2))
+        if(!nomCorrect(j1) || !nomCorrect(j2))
             return false;
         
         if( !j1Ordinateur.isSelected() && !j1Humain.isSelected() ) {
@@ -166,12 +163,10 @@ public class NouvellePartieWindow extends JDialog{
             return false;
         }
         
-        
         if( !j2Ordinateur.isSelected() && !j2Humain.isSelected() ) {
             JOptionPane.showMessageDialog(null, "Veuillez indiquer un type de joueur pour le joueur 2.","Jeu De Dames", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        
         
         if(j1.equals(j2)) {
             JOptionPane.showMessageDialog(null, "Les noms des joueurs sont identiques !","Jeu De Dames", JOptionPane.ERROR_MESSAGE);
@@ -234,6 +229,7 @@ public class NouvellePartieWindow extends JDialog{
     /**
      * Redefinition de la methode dispose de JDialog
      */
+    @Override
     public void dispose() {
         super.dispose();
         if(arbitre.getJoueurActif()!=null)
@@ -515,4 +511,4 @@ public class NouvellePartieWindow extends JDialog{
         
         return true;
     }
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}

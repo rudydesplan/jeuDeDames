@@ -58,18 +58,13 @@ public class Dame extends Piece {
      */
     public Case casePossible() {
         Case c = null;
-        if((c=casePossibleDirection(1,1))!=null)
-            return c;
-        
-        if((c=casePossibleDirection(1,-1))!=null)
-            return c;
-        
-        if((c=casePossibleDirection(-1,1))!=null)
-            return c;
-        
-        if((c=casePossibleDirection(-1,-1))!=null)
-            return c;
-        return null;
+    
+        c = c == null ? casePossibleDirection(1, 1) : c;
+        c = c == null ? casePossibleDirection(1, -1) : c;
+        c = c == null ? casePossibleDirection(-1, 1) : c;
+        c = c == null ? casePossibleDirection(-1, -1) : c;
+    
+        return c;
     }
     
     /**

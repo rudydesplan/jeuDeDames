@@ -93,7 +93,7 @@ public class APropos extends JDialog {
      */
     private javax.swing.JPanel getJContentPane() {
         if(jContentPane == null) {
-            JLabel			jLabel9 = new JLabel();
+            jLabel9 = new JLabel();
             jLabel10 = new JLabel();
             jLabel8 = new JLabel();
             jLabel2 = new JLabel();
@@ -181,4 +181,4 @@ public class APropos extends JDialog {
         this.setMaximumSize(new java.awt.Dimension(width,height));
         this.setContentPane(getJContentPane());
     }
-}  //  @jve:decl-index=0:visual-constraint="78,36"
+}

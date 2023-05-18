@@ -132,15 +132,14 @@ public class Rafle {
             
             dirLig = dlig - alig;
             dirCol = dcol - acol;
-            while( (dlig!=alig) && (dcol != acol) ) {
+            while((dlig != alig) && (dcol != acol) && (dlig >= 0) && (dlig <= 9) && (dcol >= 0) && (dcol <= 9)) {
                 dlig += dirLig;
                 dcol += dirCol;
                 
-                if( dlig < 0 || dlig > 9)
-                    break;
-                if( dcol <0 || dcol > 9)
-                    break;
-                p.get(dlig,dcol).setObligatoire(false);
+                // Guard against stepping out of bounds due to the last increment
+                if((dlig >= 0) && (dlig <= 9) && (dcol >= 0) && (dcol <= 9)) {
+                    p.get(dlig,dcol).setObligatoire(false);
+                }
             }
             
             (casesSuivantes.elementAt(i)).effaceCoups(p);
@@ -309,15 +308,19 @@ public class Rafle {
      * @return Retourne un cha�ne de caract�re d�crivant la Rafle.
      */
     public String toString() {
-        String s = "";
-        if(joueur != null)
-            s = joueur.getNom();
-        s +="|"+caseDebut+"|"+casePrise+"|"+piecePrise+"|";
-        for(int i=0;i<casesSuivantes.size();i++) {
-            s = s + "[" + casesSuivantes.elementAt(i).toString() + "]";
+        StringBuilder s = new StringBuilder();
+        if(joueur != null) {
+            s.append(joueur.getNom());
         }
-        return s+";";
+        s.append("|").append(caseDebut).append("|").append(casePrise).append("|").append(piecePrise).append("|");
+        
+        for(int i = 0; i < casesSuivantes.size(); i++) {
+            s.append("[").append(casesSuivantes.elementAt(i).toString()).append("]");
+        }
+        
+        return s.append(";").toString();
     }
+    
     
     
 }

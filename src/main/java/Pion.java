@@ -58,16 +58,17 @@ public class Pion extends Piece{
      */
     public Case casePossible() {
         Case c = null;
-        if(( c = plateau.get(position.getLigne()+direction,position.getColonne()+1) )!=null) {
-            if(c.getPiece()==null)
-                return c;
+        Case possibleCase = null;
+        
+        if ((c = plateau.get(position.getLigne() + direction, position.getColonne() + 1)) != null && c.getPiece() == null) {
+            possibleCase = c;
+        } else if ((c = plateau.get(position.getLigne() + direction, position.getColonne() - 1)) != null && c.getPiece() == null) {
+            possibleCase = c;
         }
-        if( (c=plateau.get(position.getLigne()+direction,position.getColonne()-1)) !=null) {
-            if(c.getPiece()==null)
-                return c;
-        }
-        return null;
+    
+        return possibleCase;
     }
+    
     
     /**
      * Retourne un copie du pion
@@ -92,8 +93,7 @@ public class Pion extends Piece{
          */
         int lig = position.getLigne();
         int col = position.getColonne();
-        //Case c,c2;
-        //Piece piece;
+
         Rafle rafle=new Rafle(position,prise,null);
         int nbPrises=0;
         
@@ -122,16 +122,11 @@ public class Pion extends Piece{
      */
     public boolean coupPossible() {
         Case c = null;
-        if(( c = plateau.get(position.getLigne()+direction,position.getColonne()+1) )!=null) {
-            if(c.getPiece()==null)
-                return true;
-        }
-        if( (c=plateau.get(position.getLigne()+direction,position.getColonne()-1)) !=null) {
-            if(c.getPiece()==null)
-                return true;
-        }
-        return false;
+        return ((c = plateau.get(position.getLigne() + direction, position.getColonne() + 1)) != null && c.getPiece() == null) ||
+               ((c = plateau.get(position.getLigne() + direction, position.getColonne() - 1)) != null && c.getPiece() == null);
     }
+    
+    
     
     /**
      * <p>Cette m thode calcul le coup obligatoire pour le pion dans la direction <code>dLig</code>
@@ -153,33 +148,29 @@ public class Pion extends Piece{
         Piece piece = null;
         
         
-        if((c = plateau.get(lig+dLig,col+dCol)) != null) {
-            if((piece = c.getPiece()) != null) {
-                if(piece.getCouleur() != couleur) {
-                    if((c2 = plateau.get(lig+2*dLig,col+2*dCol)) != null) {
-                        if(plateau.get(lig+2*dLig,col+2*dCol).getPiece() == null) {
-                            /*  Prise possible */
-                            //Suppression du pion pris
-                            c.remove();
-                            //D placement de la pi ce
-                            deplacer((CaseNoire) c2);
-                            
-                            Rafle r = coupObligatoire(piece.getPosition());
-                            if(r.getNbPrises()>nbPrises) {
-                                nbPrises=r.getNbPrises();
-                                rafle.clearCasesSuivantes();
-                                rafle.addRaflesSuivantes(r);
-                            }
-                            else {
-                                if(r.getNbPrises()==nbPrises) {
-                                    rafle.addRaflesSuivantes(r);	
-                                }
-                            }
-                            
-                        }
-                    }
+        if((c = plateau.get(lig+dLig,col+dCol)) != null && 
+           (piece = c.getPiece()) != null &&
+           piece.getCouleur() != couleur && 
+           (c2 = plateau.get(lig+2*dLig,col+2*dCol)) != null && 
+           plateau.get(lig+2*dLig,col+2*dCol).getPiece() == null) {
+            /*  Prise possible */
+            //Suppression du pion pris
+            c.remove();
+            //Deplacement de la piece
+            deplacer((CaseNoire) c2);
+            
+            Rafle r = coupObligatoire(piece.getPosition());
+            if(r.getNbPrises()>nbPrises) {
+                nbPrises=r.getNbPrises();
+                rafle.clearCasesSuivantes();
+                rafle.addRaflesSuivantes(r);
+            }
+            else {
+                if(r.getNbPrises()==nbPrises) {
+                    rafle.addRaflesSuivantes(r);  
                 }
             }
+            
         }
         return nbPrises;
     }
@@ -190,6 +181,7 @@ public class Pion extends Piece{
      * @see Pion#direction
      * 
      */
+    @Override
     public int getDirection() {
         return direction;
     }
@@ -202,22 +194,11 @@ public class Pion extends Piece{
     public boolean isCoupValide(Rafle coup) {
         CaseNoire depart = coup.getCaseDebut();
         CaseNoire arrivee = coup.getCasesSuivantes(0);
-        
-        // Les deux cases sont identiques, c bon
-        if(depart == arrivee)
-            return true;
-        
-        // Si la pion ne se d place pas d'une ligne dans la bonne direction, mauvais d placement
-        if(arrivee.getLigne() != depart.getLigne() + direction)
-            return false;
-        
-        //Calcul de la diff rence de colonne
+    
         int diff = arrivee.getColonne() - depart.getColonne();
         
-        // Si cette diff rence est diff rente de 1 ou -1, erreur.
-        if(diff != 1 && diff != -1)
-            return false;
-        return true;
+        return depart == arrivee || 
+               (arrivee.getLigne() == depart.getLigne() + direction && (diff == 1 || diff == -1));
     }
     
     /**
@@ -225,6 +206,7 @@ public class Pion extends Piece{
      * l'affichage d'un pion, ici on dessine un cercle.
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
+    @Override
     public void paintComponent(Graphics g) {
         int color = couleur*75+150;
         int cote = Case.TAILLE-10;

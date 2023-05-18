@@ -153,30 +153,26 @@ public class Plateau extends JComponent {
                 // On ne met en surbrillance que les cases pouvant �tre atteinte
                 if(obligatoire)
                     arbitre.misAJourCoupsObligatoire(c);
-                //c.remove();
                 pieceSelec = p;
                 
             }
         }
         
-        // Il y a une case selectionn�e
+        // Il y a une case selectionnee
         else{
-            //D�selection case.
+            //Deselection case.
             if(c == caseSelectionnee) {
                 pieceSelec = null;
                 //On redessine tous les coups obligatoires
                 if(obligatoire)
                     arbitre.dessineCoupObligatoire();
-                
                 initialise();
-                //pieceSelec.deplacer(c);
-                //remove(pieceSelec);
-                //pieceSelec.removeMouseMotionListener(pieceSelec);
             }
             else {
                 // Coup Obligatoire
                 if(obligatoire) {
-                    Rafle r1,r2;
+                    Rafle r1;
+                    Rafle r2;
                     // On recupere la rafle passant par la case selectionn� par le joueur.
                     r1 = arbitre.getRafle(caseSelectionnee);
                     
@@ -194,7 +190,6 @@ public class Plateau extends JComponent {
                             coup.addCasesSuivantes(c);
                             
                             // Ajoute la piece deplac� sur se nouvelle case.
-                            //pieceSelec.removeMouseMotionListener(pieceSelec);
                             pieceSelec.deplacer(c);
                             initialise();
                             // On avertie l'arbitre qu'un coup est jou�.
@@ -265,6 +260,7 @@ public class Plateau extends JComponent {
      * M�thode retournant la hauteur du plateau
      * @return hauteur du plateau
      */
+    @Override
     public int getHeight() {
         return 10*Case.TAILLE + hauteur;
     }
@@ -282,6 +278,7 @@ public class Plateau extends JComponent {
      * Retourne la largeur du tableau
      * @return largeur du tableau
      */
+    @Override
     public int getWidth() {
         return 10*Case.TAILLE + largeur;
     }

@@ -119,6 +119,7 @@ public abstract class Case extends JComponent {
      * M thode qui permet d'ajouter un <code>Component</code>   la case. Ici on ajoute une <code>piece</code>.
      * @see  java.awt.Container#add(java.awt.Component)
      */
+    @Override
     public Component add(Component comp) {
         return super.add(comp);
     }
@@ -129,9 +130,7 @@ public abstract class Case extends JComponent {
      * @return Retourne true si les cades sont semblables, false sinon
      */
     public boolean compare(Case c) {
-        if(c.getLigne() == lig && c.getColonne() == col)
-            return true;
-        return false;
+        return c.getLigne() == lig && c.getColonne() == col;
     }
     
     /**
@@ -177,6 +176,7 @@ public abstract class Case extends JComponent {
      * permettant de personnaliser l'affichage de la <code>case</code>.
      * @see JComponent#paintComponent(java.awt.Graphics)
      */
+    @Override
     public abstract void paintComponent(Graphics g);
     
     /**
@@ -205,6 +205,7 @@ public abstract class Case extends JComponent {
      * M thode renvoyant une cha ne caract risant la case : "ligne,colonne".
      * @return cha ne d crivant la case.
      */
+    @Override
     public String toString() {
         return lig + "," + col;
     }

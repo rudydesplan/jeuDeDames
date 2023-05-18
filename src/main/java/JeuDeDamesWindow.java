@@ -39,7 +39,7 @@ import javax.swing.WindowConstants;
 
 /**
  * 
- * Classe h�ritant de la classe <code>JFrame</code>. Cette classe g�re la fen�tre du jeu de dames,
+ * Classe heritant de la classe <code>JFrame</code>. Cette classe gere la fenetre du jeu de dames,
  * l'affichage des composants,...
  * 
  * @author rudy
@@ -48,23 +48,23 @@ import javax.swing.WindowConstants;
 public class JeuDeDamesWindow extends JFrame {
     
     /**
-     * Hauteur de la fen�tre
+     * Hauteur de la fenetre
      */
     private static final float hauteur = (float) 2/3;
     /**
-     * Largeur de la fen�tre
+     * Largeur de la fenetre
      */
     private static final float largeur = (float) 2/3;
     /**
-     * Position X de la fen�tre
+     * Position X de la fenetre
      */
     private static final float posX = (float) 1/6;
     /**
-     * Position Y de la fen�tre
+     * Position Y de la fenetre
      */
     private static final float posY = (float) 1/6;
     /**
-     * M�thode principal lan�ant le Jeu de Dames.
+     * Methode principal lancant le Jeu de Dames.
      * @param args
      */
     public static void main(String[] args) {
@@ -72,7 +72,7 @@ public class JeuDeDamesWindow extends JFrame {
         jeuDeDamesWindow.setVisible(true);
     }
     /**
-     * Arbitre contr�lant le jeu
+     * Arbitre controlant le jeu
      */
     private transient Arbitre arbitre;
     
@@ -85,11 +85,11 @@ public class JeuDeDamesWindow extends JFrame {
      */
     private JoueurPanel joueur2Panel = null;
     /**
-     * JPanel o� est dessin� les composants de la fen�tre
+     * JPanel ou est dessine les composants de la fenetre
      */
     private JPanel pane = null;
     /**
-     * Plateau repr�sentant la damier
+     * Plateau representant la damier
      * 
      */
     private Plateau plateau;
@@ -145,7 +145,7 @@ public class JeuDeDamesWindow extends JFrame {
         JMenuItem iAPropos = new JMenuItem("A Propos");
         iAPropos.addActionListener(ae -> aPropos());
         
-        //Ajout de tous les �l�ments
+        //Ajout de tous les elements
         mFichier.add(iNouveau);
         mFichier.add(iCharger);
         mFichier.add(iSauver);
@@ -161,7 +161,7 @@ public class JeuDeDamesWindow extends JFrame {
         pane = new JPanel();
         pane.setLayout(new GridBagLayout());
         
-        // Cr�ation du plateau
+        // Creation du plateau
         plateau = new Plateau();
         
         GridBagConstraints c = new GridBagConstraints();
@@ -271,6 +271,5 @@ public class JeuDeDamesWindow extends JFrame {
         }
         if(arbitre.getJoueurActif()!=null)
             arbitre.getJoueurActif().startTimer();
-        
     }
 }

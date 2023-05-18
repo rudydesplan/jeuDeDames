@@ -156,7 +156,7 @@ public class Arbitre {
             return;
         }
         if (joueur.getAdversaire().annulerCoup()) {
-            //Rafle dernierCoup = null;
+
             int nbCoup = historique.getNbCoups();
             int ret = historique.getDernierCoup(joueur);
             
@@ -171,8 +171,7 @@ public class Arbitre {
             for (int i = nbCoup - 1; i >= ret; i--) {
                 Rafle r = historique.remove(i);
                 if (r != null) {
-                    //Annuler la rafle r
-                    //On remet les pièces qui ont été prises
+
                     CaseNoire caseDebut = r.getCaseDebut();
                     CaseNoire caseArrivee = null;
                     while (r.getCasesSuivantes(0) != null) {
