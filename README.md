@@ -10,8 +10,4 @@ javac *.java. The class file will be in this directory.
 
 To run it, just move back to src/, and type java jeuDeDames.JeuDeDamesWindow
 
-If you want to directly run the precompile files, you need to go to bin/, and then type
-java jeuDeDames.JeuDeDamesWindow
-
 Enjoy !
-
