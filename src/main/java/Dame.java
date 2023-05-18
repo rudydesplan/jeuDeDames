@@ -58,14 +58,19 @@ public class Dame extends Piece {
      */
     public Case casePossible() {
         Case c = null;
+        int[] directions = {1, -1};
     
-        c = c == null ? casePossibleDirection(1, 1) : c;
-        c = c == null ? casePossibleDirection(1, -1) : c;
-        c = c == null ? casePossibleDirection(-1, 1) : c;
-        c = c == null ? casePossibleDirection(-1, -1) : c;
-    
-        return c;
+        for (int d1 : directions) {
+            for (int d2 : directions) {
+                c = casePossibleDirection(d1, d2);
+                if (c != null) {
+                    return c;
+                }
+            }
+        }
+        return null;
     }
+    
     
     /**
      * Methode qui retourne la premiere case vide dans la direction dLig,dCol
@@ -73,25 +78,23 @@ public class Dame extends Piece {
      * @param dCol Direction d'evolution des colonnes
      * @return premiere case possible dans la direction dLig,dCol
      */
-    private Case casePossibleDirection(int dLig,int dCol) {
+    private Case casePossibleDirection(int dLig, int dCol) {
         int ligne = position.getLigne();
         int colonne = position.getColonne();
-        
+    
         while(true) {
             ligne += dLig;
             colonne += dCol;
-            
-            if(ligne<0 || ligne >9)
+    
+            if(ligne < 0 || ligne > 9 || colonne < 0 || colonne > 9 
+               || plateau.get(ligne, colonne).getPiece() != null) {
                 return null;
-            if(colonne<0 || colonne >9)
-                return null;
-            
-            if(plateau.get(ligne,colonne).getPiece()==null)
-                return plateau.get(ligne,colonne);
-            return null;
-            
+            }
+    
+            return plateau.get(ligne, colonne);
         }
     }
+    
     
     /**
      * Retourne un copie de la dame.
@@ -415,20 +418,17 @@ public class Dame extends Piece {
      * @return true si la dame peut bouger, false sinon.
      */
     public boolean coupPossible() {
-        
-        if(coupPossibleDirection(1,1))
-            return true;
-        
-        if(coupPossibleDirection(1,-1))
-            return true;
-        
-        if(coupPossibleDirection(-1,1))
-            return true;
-        
-        if(coupPossibleDirection(-1,-1))
-            return true;
+        int[] directions = {1, -1};
+        for (int dLig : directions) {
+            for (int dCol : directions) {
+                if (coupPossibleDirection(dLig, dCol)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
+    
     
     /**
      * Renvoit un booleen suivant si un coup est possible pour la dame dans une certaine direction.
@@ -436,25 +436,19 @@ public class Dame extends Piece {
      * @param dCol direction d'evolution des colonnes
      * @return true si la dame peut effectuer un coup, false sinon
      */
-    public boolean coupPossibleDirection(int dLig,int dCol) {
+    public boolean coupPossibleDirection(int dLig, int dCol) {
         int ligne = position.getLigne();
         int colonne = position.getColonne();
         
-        while(true) {
-            ligne += dLig;
-            colonne += dCol;
-            
-            if(ligne<0 || ligne >9)
-                return false;
-            if(colonne<0 || colonne >9)
-                return false;
-            
-            if(plateau.get(ligne,colonne).getPiece()==null)
-                return true;
+        ligne += dLig;
+        colonne += dCol;
+        
+        if(ligne<0 || ligne >9 || colonne<0 || colonne >9)
             return false;
-            
-        }
+        
+        return plateau.get(ligne, colonne).getPiece() == null;
     }
+    
     
     /**
      * Methode qui renvoit un boolean indiquant si le Coup <code>coup</code> est valide 
@@ -463,7 +457,6 @@ public class Dame extends Piece {
      * @return true si la coup est bon, false sinon.
      */
     public boolean isCoupValide(Rafle coup) {
-        
         CaseNoire depart = coup.getCaseDebut();
         CaseNoire arrivee = coup.getCasesSuivantes(0);
         
@@ -477,36 +470,27 @@ public class Dame extends Piece {
         int alig = arrivee.getLigne();
         int acol = arrivee.getColonne();
         
-        int dirCol;
-        int dirLig;
-        if(depart.getColonne()>arrivee.getColonne())
-            dirCol=-1;
-        else dirCol=1;
-        
-        if(depart.getLigne() > arrivee.getLigne())
-            dirLig = -1;
-        else dirLig = 1;
-        
-        while( (dlig!=alig) || (dcol != acol) ) {
+        int dirCol = (depart.getColonne() > arrivee.getColonne()) ? -1 : 1;
+        int dirLig = (depart.getLigne() > arrivee.getLigne()) ? -1 : 1;
+    
+        while( (dlig != alig) || (dcol != acol) ) {
             dlig += dirLig;
             dcol += dirCol;
             
-            if( dlig < 0 || dlig > 9)
-                return false;
-            if( dcol <0 || dcol > 9)
-                return false;
-            if(plateau.get(dlig,dcol).getPiece()!=null) 
+            if( dlig < 0 || dlig > 9 || dcol <0 || dcol > 9 || plateau.get(dlig,dcol).getPiece()!=null) 
                 return false;
         }
         
         return true;
     }
     
+    
     /**
      * Methode redefinit de la classe JPanel, permettant de personnaliser 
      * l'affichage d'une dame, ici on dessine un cercle.
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
+    @Override
     public void paintComponent(Graphics g) {
         int color = couleur*75+150;
         int cote = Case.TAILLE-10;
