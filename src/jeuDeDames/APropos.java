@@ -1,10 +1,10 @@
 /*
  *****************************************************************************
- *                         APropos.java  -  description                  
+ *                         Arbitre.java  -  description                  
  *                            -------------------                        
  *   begin                : 18 mai. 2023                                      
  *   copyright            : (C) 2023 by Rudy Desplan
- *   email                :                  
+ *   email                : rudy.desplan@etud.univ-paris8.fr                
  *****************************************************************************
  
  ***************************************************************************
@@ -181,4 +181,4 @@ public class APropos extends JDialog {
         this.setMaximumSize(new java.awt.Dimension(width,height));
         this.setContentPane(getJContentPane());
     }
-}
+}  //  @jve:decl-index=0:visual-constraint="78,36"
