@@ -134,44 +134,43 @@ public class Dame extends Piece {
             //nbPrises = rechercherPremierePrise(iLigne,iColonne,1,1,rafle,nbPrises);
             dLig = 1;
             dCol = 1;
-            while(true) {
+            boolean isBreak = false;
+            while(!isBreak) {
                 Piece p = null;
                 
                 ligne += dLig;
                 colonne += dCol;
                 
-                if(ligne < 1 || ligne > 8)
-                    break;
-                if(colonne < 1 || colonne > 8)
-                    break;
-                
-                if( ( p = plateau.get(ligne,colonne).getPiece() )!= null) {
-                    if(p.getCouleur() != couleur) {
-                        if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
-                            // Prise possible
-                            deplacer( (CaseNoire) plateau.get(ligne-dLig,colonne-dCol) );
-                            Rafle r = coupObligatoire(p.getPosition());
-                            r.setCaseDebut( (CaseNoire) plateau.get(iLigne,iColonne));
-                            r.setCasePrise(null);
-                            // La rafle trouvee est "meilleure"
-                            if(r.getNbPrises() > nbPrises) {
-                                rafle = r;
-                                nbPrises = r.getNbPrises();
-                            }
-                            else {
-                                // la rafle trouvee est equivalente
-                                if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
-                                    for(int i = 0; i<r.getNbCasesSuivantes();i++) {
-                                        rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                if(ligne < 1 || ligne > 8 || colonne < 1 || colonne > 8)
+                    isBreak = true;
+                else {
+                    if( ( p = plateau.get(ligne, colonne).getPiece() )!= null) {
+                        if(p.getCouleur() != couleur) {
+                            if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
+                                // Prise possible
+                                deplacer( (CaseNoire) plateau.get(ligne-dLig, colonne-dCol) );
+                                Rafle r = coupObligatoire(p.getPosition());
+                                r.setCaseDebut( (CaseNoire) plateau.get(iLigne, iColonne));
+                                r.setCasePrise(null);
+                                // La rafle trouvee est "meilleure"
+                                if(r.getNbPrises() > nbPrises) {
+                                    rafle = r;
+                                    nbPrises = r.getNbPrises();
+                                }
+                                else {
+                                    // la rafle trouvee est equivalente
+                                    if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
+                                        for(int i = 0; i<r.getNbCasesSuivantes();i++) {
+                                            rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                                        }
                                     }
                                 }
+                                
                             }
-                            
                         }
+                        isBreak = true;
                     }
-                    break;
                 }
-                
             }
             
             // Direction -1,1
@@ -180,135 +179,126 @@ public class Dame extends Piece {
             dCol = 1;
             ligne = iLigne;
             colonne = iColonne;
-            while(true) {
+            isBreak = false;
+            while(!isBreak) {
                 Piece p = null;
                 
                 ligne += dLig;
                 colonne += dCol;
                 
-                if(ligne < 1 || ligne > 8)
-                    break;
-                if(colonne < 1 || colonne > 8)
-                    break;
-                
-                if( ( p = plateau.get(ligne,colonne).getPiece() )!= null) {
-                    if(p.getCouleur() != couleur) {
-                        if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
-                            // Prise possible
-                            deplacer( (CaseNoire) plateau.get(ligne-dLig,colonne-dCol) );
-                            Rafle r = coupObligatoire(p.getPosition());
-                            r.setCaseDebut( (CaseNoire) plateau.get(iLigne,iColonne));
-                            r.setCasePrise(null);
-                            // La rafle trouvee est "meilleure"
-                            if(r.getNbPrises() > nbPrises) {
-                                rafle = r;
-                                nbPrises = r.getNbPrises();
-                            }
-                            else {
-                                // la rafle trouvee est equivalente
-                                if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
-                                    for(int i = 0; i<r.getNbCasesSuivantes();i++) {
-                                        rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                if(ligne < 1 || ligne > 8 || colonne < 1 || colonne > 8)
+                    isBreak = true;
+                else {
+                    if( ( p = plateau.get(ligne, colonne).getPiece() )!= null) {
+                        if(p.getCouleur() != couleur) {
+                            if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
+                                // Prise possible
+                                deplacer( (CaseNoire) plateau.get(ligne-dLig,colonne-dCol) );
+                                Rafle r = coupObligatoire(p.getPosition());
+                                r.setCaseDebut( (CaseNoire) plateau.get(iLigne,iColonne));
+                                r.setCasePrise(null);
+                                // La rafle trouvee est "meilleure"
+                                if(r.getNbPrises() > nbPrises) {
+                                    rafle = r;
+                                    nbPrises = r.getNbPrises();
+                                }
+                                else {
+                                    // la rafle trouvee est equivalente
+                                    if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
+                                        for(int i = 0; i<r.getNbCasesSuivantes();i++) {
+                                            rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                                        }
                                     }
                                 }
                             }
-                            
                         }
+                        isBreak = true;
                     }
-                    break;
                 }
-                
             }
             
             // Direction -1,-1
-            //nbPrises = rechercherPremierePrise(iLigne,iColonne,-1,-1,rafle,nbPrises);
             dLig = -1;
             dCol = -1;
             ligne = iLigne;
             colonne = iColonne;
-            while(true) {
+            isBreak = false;
+            while(!isBreak) {
                 Piece p = null;
                 
                 ligne += dLig;
                 colonne += dCol;
                 
-                if(ligne < 1 || ligne > 8)
-                    break;
-                if(colonne < 1 || colonne > 8)
-                    break;
-                
-                if( ( p = plateau.get(ligne,colonne).getPiece() )!= null) {
-                    if(p.getCouleur() != couleur) {
-                        if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
-                            // Prise possible
-                            deplacer( (CaseNoire) plateau.get(ligne-dLig,colonne-dCol) );
-                            Rafle r = coupObligatoire(p.getPosition());
-                            r.setCaseDebut( (CaseNoire) plateau.get(iLigne,iColonne));
-                            r.setCasePrise(null);
-                            // La rafle trouvee est "meilleure"
-                            if(r.getNbPrises() > nbPrises) {
-                                rafle = r;
-                                nbPrises = r.getNbPrises();
-                            }
-                            else {
-                                // la rafle trouvee est equivalente
-                                if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
-                                    for(int i = 0; i<r.getNbCasesSuivantes();i++) {
-                                        rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                if(ligne < 1 || ligne > 8 || colonne < 1 || colonne > 8)
+                    isBreak = true;
+                else {
+                    if( ( p = plateau.get(ligne, colonne).getPiece() )!= null) {
+                        if(p.getCouleur() != couleur) {
+                            if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
+                                // Prise possible
+                                deplacer( (CaseNoire) plateau.get(ligne-dLig, colonne-dCol) );
+                                Rafle r = coupObligatoire(p.getPosition());
+                                r.setCaseDebut( (CaseNoire) plateau.get(iLigne, iColonne));
+                                r.setCasePrise(null);
+                                // La rafle trouvee est "meilleure"
+                                if(r.getNbPrises() > nbPrises) {
+                                    rafle = r;
+                                    nbPrises = r.getNbPrises();
+                                }
+                                else {
+                                    // la rafle trouvee est equivalente
+                                    if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
+                                        for(int i = 0; i<r.getNbCasesSuivantes();i++) {
+                                            rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                                        }
                                     }
                                 }
                             }
-                            
                         }
+                        isBreak = true;
                     }
-                    break;
                 }
-                
             }
+
             // Direction 1,-1
             //nbPrises = rechercherPremierePrise(iLigne,iColonne,1,-1,rafle,nbPrises);
+            // Direction 1,-1
             dLig = 1;
             dCol = -1;
-            ligne = iLigne;
-            colonne = iColonne;
-            while(true) {
+            isBreak = false;
+            while(!isBreak) {
                 Piece p = null;
-                
+                            
                 ligne += dLig;
                 colonne += dCol;
-                
-                if(ligne < 1 || ligne > 8)
-                    break;
-                if(colonne < 1 || colonne > 8)
-                    break;
-                
-                if( ( p = plateau.get(ligne,colonne).getPiece() )!= null) {
-                    if(p.getCouleur() != couleur) {
-                        if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
-                            // Prise possible
-                            deplacer( (CaseNoire) plateau.get(ligne-dLig,colonne-dCol) );
-                            Rafle r = coupObligatoire(p.getPosition());
-                            r.setCaseDebut( (CaseNoire) plateau.get(iLigne,iColonne));
-                            r.setCasePrise(null);
-                            // La rafle trouvee est "meilleure"
-                            if(r.getNbPrises() > nbPrises) {
-                                rafle = r;
-                                nbPrises = r.getNbPrises();
-                            }
-                            else {
-                                // la rafle trouvee est equivalente
-                                if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
-                                    for(int i = 0; i<r.getNbCasesSuivantes();i++) {
-                                        rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                            
+                if(ligne < 1 || ligne > 8 || colonne < 1 || colonne > 8)
+                    isBreak = true;
+                else {
+                    if( ( p = plateau.get(ligne, colonne).getPiece() )!= null) {
+                        if(p.getCouleur() != couleur) {
+                            if(plateau.get(ligne+dLig,colonne+dCol).getPiece() == null) {
+                                // Prise possible
+                                deplacer( (CaseNoire) plateau.get(ligne-dLig, colonne-dCol) );
+                                Rafle r = coupObligatoire(p.getPosition());
+                                r.setCaseDebut(prise);
+                                r.setCasePrise( (CaseNoire) plateau.get(ligne, colonne) );
+                                if(r.getNbPrises() > nbPrises) {
+                                    rafle = r;
+                                    nbPrises = r.getNbPrises();
+                                }
+                                else {
+                                    if(nbPrises > 0 && r.getNbPrises() == nbPrises) {
+                                        for(int i = 0; i<r.getNbCasesSuivantes();i++) {
+                                            rafle.addRaflesSuivantes(r.getRaflesSuivantes(i));
+                                        }
                                     }
                                 }
                             }
-                            
                         }
+                        isBreak = true;
                     }
-                    break;
                 }
-                
             }
         }
         
@@ -319,64 +309,66 @@ public class Dame extends Piece {
             
             ligne += dLig;
             colonne += dCol;
+
+            // Define a new boolean variable "continueLoop"
+            boolean continueLoop = true;
             
-            while(true) {
+            while(continueLoop) {
                 Piece p = null;
                 Case c = null;
                 Case c2 = null;
                 
                 ligne += dLig;
-                colonne += dCol;				
-                if(ligne<0 || ligne > 9)
-                    break;
-                if(colonne <0 || colonne > 9)
-                    break;
+                colonne += dCol;
                 
-                deplacer( (CaseNoire) plateau.get(ligne,colonne));
-                
-                // Piece prenable sur le cote
-                nbPrises = prisePossible(ligne,colonne,dLig,-dCol,rafle,nbPrises,prise);
-                
-                // Piece prenable sur l'autre cote
-                deplacer( (CaseNoire) plateau.get(ligne,colonne));
-                nbPrises = prisePossible(ligne,colonne,-dLig,dCol,rafle,nbPrises,prise);
-                
-                
-                // Piece prenable dans la direction ou on avance
-                if( (c=plateau.get(ligne+dLig,colonne+dCol)) != null) {
-                    if( (p = c.getPiece())!= null)  {
-                        if(p.getCouleur() != couleur) {
-                            if( (c2 = plateau.get(ligne+2*dLig,colonne+2*dCol)) != null) {
-                                if(c2.getPiece() == null) {
-                                    Rafle r = coupObligatoire( (CaseNoire) c);
-                                    r.setCasePrise(prise);
-                                    if(r.getNbPrises() > nbPrises) {
-                                        nbPrises = r.getNbPrises();
-                                        rafle.clearCasesSuivantes();
-                                        rafle.addRaflesSuivantes(r);
-                                    }
-                                    else {
-                                        if(nbPrises>0 && nbPrises == r.getNbPrises()) {
-                                            // On doit verifier s'il n'y a pas une rafle equivalente qui commence par la meme case
-                                            Rafle r1 = rafle.getRaflesSuivantes(r.getCaseDebut());
-                                            if(r1==null)
-                                                // Si il n'y a pas on ajoute simplement la nouvelle rafle trouvee
-                                                rafle.addRaflesSuivantes(r);
-                                            else {
-                                                //dans le cas ou une rafle commencant par la meme case existe deja
-                                                // on ajoute a cette raflen, les nouvelles rafles suivantes trouves.
-                                                for(int i=0;i<r.getNbCasesSuivantes();i++)
-                                                    r1.addRaflesSuivantes(r.getRaflesSuivantes(i));
-                                            }
+                // Replace "break" with the condition to stop the loop
+                if(ligne<0 || ligne > 9 || colonne <0 || colonne > 9)
+                    continueLoop = false;
+                else {
+                    deplacer( (CaseNoire) plateau.get(ligne,colonne));
+                    
+                    // Piece prenable sur le cote
+                    nbPrises = prisePossible(ligne,colonne,dLig,-dCol,rafle,nbPrises,prise);
+                    
+                    // Piece prenable sur l'autre cote
+                    deplacer( (CaseNoire) plateau.get(ligne,colonne));
+                    nbPrises = prisePossible(ligne,colonne,-dLig,dCol,rafle,nbPrises,prise);
+                    
+                    
+                    // Piece prenable dans la direction ou on avance
+                    if((c=plateau.get(ligne+dLig,colonne+dCol)) != null) {
+                        if((p = c.getPiece())!= null && p.getCouleur() != couleur) {
+                            if((c2 = plateau.get(ligne+2*dLig,colonne+2*dCol)) != null && c2.getPiece() == null) {
+                                Rafle r = coupObligatoire((CaseNoire) c);
+                                r.setCasePrise(prise);
+                                if(r.getNbPrises() > nbPrises) {
+                                    nbPrises = r.getNbPrises();
+                                    rafle.clearCasesSuivantes();
+                                    rafle.addRaflesSuivantes(r);
+                                }
+                                else {
+                                    if(nbPrises>0 && nbPrises == r.getNbPrises()) {
+                                        // On doit verifier s'il n'y a pas une rafle equivalente qui commence par la meme case
+                                        Rafle r1 = rafle.getRaflesSuivantes(r.getCaseDebut());
+                                        if(r1==null)
+                                            // Si il n'y a pas on ajoute simplement la nouvelle rafle trouvee
+                                            rafle.addRaflesSuivantes(r);
+                                        else {
+                                            //dans le cas ou une rafle commencant par la meme case existe deja
+                                            // on ajoute a cette raflen, les nouvelles rafles suivantes trouves.
+                                            for(int i=0;i<r.getNbCasesSuivantes();i++)
+                                                r1.addRaflesSuivantes(r.getRaflesSuivantes(i));
                                         }
                                     }
                                 }
                             }
                         }
-                        break;
+                        // Replace the last "break" statement with the condition to stop the loop
+                        if(p != null && p.getCouleur() != couleur) {
+                            continueLoop = false;
+                        }
                     }
                 }
-                
             }
             //Si il n'y a pas de prises possibles dans toutes la diagonales, on ajoute
             // aux cases suivantes, toutes les cases de la diagonale.
@@ -384,7 +376,11 @@ public class Dame extends Piece {
                 position.remove();
                 iLigne += 2*dLig;
                 iColonne += 2*dCol;
-                while(true) {
+                
+                // Define a new boolean variable "continueLoop"
+                boolean continueLoop_ = true;
+                
+                while(continueLoop_) {
                     Rafle r = new Rafle( (CaseNoire) plateau.get(iLigne,iColonne),null,null);
                     r.setCasePrise(prise);
                     r.setNbPrises(1);
@@ -393,15 +389,13 @@ public class Dame extends Piece {
                     iLigne += dLig;
                     iColonne += dCol;
                     
-                    if(iLigne <0 || iLigne > 9)
-                        break;
-                    if(iColonne <0 || iColonne >9)
-                        break;
-                    if(plateau.get(iLigne,iColonne).getPiece()!=null)
-                        break;
+                    // Replace "break" with the condition to stop the loop
+                    if(iLigne <0 || iLigne > 9 || iColonne <0 || iColonne >9 || plateau.get(iLigne,iColonne).getPiece()!=null)
+                        continueLoop_ = false;
                 }
                 nbPrises=1;
             }
+            
         }
         
         if(prise != null) 
@@ -409,10 +403,10 @@ public class Dame extends Piece {
         //On doit diminuer de un le nombre de prises totales, car dans l'algorithme, on en ajoute un en plus.
         else nbPrises--;
         
-        
         rafle.setNbPrises(nbPrises);
         return rafle;
     }
+
     /**
      * Methode qui recherche si la dame peut bouger.
      * @return true si la dame peut bouger, false sinon.
@@ -428,7 +422,6 @@ public class Dame extends Piece {
         }
         return false;
     }
-    
     
     /**
      * Renvoit un booleen suivant si un coup est possible pour la dame dans une certaine direction.
@@ -448,7 +441,6 @@ public class Dame extends Piece {
         
         return plateau.get(ligne, colonne).getPiece() == null;
     }
-    
     
     /**
      * Methode qui renvoit un boolean indiquant si le Coup <code>coup</code> est valide 
@@ -483,7 +475,6 @@ public class Dame extends Piece {
         
         return true;
     }
-    
     
     /**
      * Methode redefinit de la classe JPanel, permettant de personnaliser 
