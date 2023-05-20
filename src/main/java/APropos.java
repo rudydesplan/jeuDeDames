@@ -70,7 +70,6 @@ public class APropos extends JDialog {
      * The width of the dialog window.
      */
     private int width = 400;
-}
     
     /**
      * A constructor for the APropos class. This constructor initializes the dialog box with details about the game.
