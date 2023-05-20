@@ -1,4 +1,4 @@
-name: Build and create JAR
+name: Build, Create JAR, and Generate Javadoc
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # or replace with the name of your default branch
 
 jobs:
-  build:
+  build-and-generate-javadoc:
 
     runs-on: ubuntu-latest
 
@@ -22,8 +22,18 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    - name: Generate Javadoc
+      run: |
+        javadoc -d javadoc -sourcepath src/main/java
+
     - name: Upload JAR
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: my-artifact
         path: target/*.jar
+
+    - name: Upload Javadoc
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-javadoc
+        path: javadoc/
