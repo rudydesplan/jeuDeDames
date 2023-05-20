@@ -16,25 +16,58 @@ import javax.swing.Timer;
  */
 public abstract class Joueur {
     
+    /**
+     * Indicates whether the player is active.
+     */
     protected boolean actif = false;
-    
+
+    /**
+     * The player's adversary.
+     */
     protected Joueur adversaire = null;
-    
+
+    /**
+     * The color of the player. Use constants defined in Piece for clarity.
+     * @see Piece#NOIR
+     * @see Piece#BLANC
+     */
     protected int couleur;
-    
+
+    /**
+     * The name of the player.
+     */
     protected String nom;
-    
+
+    /**
+     * The panel object associated with the player.
+     */
     protected JoueurPanel panel = null;
-    
+
+    /**
+     * A list of pieces belonging to the player.
+     */
     protected Vector<Piece> pieces = null;
-    
+
+    /**
+     * The game board that the player plays on.
+     */
     protected Plateau plateau = null;
-    
+
+    /**
+     * The remaining time for the player.
+     */
     protected int tempsRestant;
-    
+
+    /**
+     * The timer used for tracking the player's time.
+     */
     protected Timer timer;
 
+    /**
+     * An action that is triggered to update the player's remaining time.
+     */
     protected Action updateTemps;
+
 
     /**
      * Constructor for the Joueur class.
@@ -99,6 +132,7 @@ public abstract class Joueur {
     /**
      * Abstract method to handle undoing a move.
      * This method should be implemented in the subclasses.
+     * @return true if the move was successfully undone, false otherwise
      */
     public abstract boolean annulerCoup();
     
@@ -116,6 +150,7 @@ public abstract class Joueur {
 
     /**
      * Returns the active state of the player.
+     * @return true if the player is active, false otherwise
      */
     public boolean getActif() {
         return actif;
@@ -123,6 +158,7 @@ public abstract class Joueur {
     
     /**
      * Returns the adversary player.
+     * @return the adversary player
      */
     public Joueur getAdversaire() {
         return adversaire;
@@ -132,6 +168,7 @@ public abstract class Joueur {
      * Returns the color of the player.
      * @see Piece#NOIR
      * @see Piece#BLANC
+     * @return the color of the player
      */
     public int getCouleur() {
         return couleur;
@@ -139,6 +176,7 @@ public abstract class Joueur {
     
     /**
      * Returns the name of the player.
+     * @return the name of the player
      */
     public String getNom() {
         return nom;
@@ -146,6 +184,7 @@ public abstract class Joueur {
     
     /**
      * Returns the number of pieces that the player has.
+     * @return the number of pieces that the player has
      */
     public int getNombrePieces() {
         return pieces.size();
@@ -153,6 +192,7 @@ public abstract class Joueur {
 
     /**
      * Returns the player's panel.
+     * @return the player's panel
      */
     public JoueurPanel getPanel() {
         return panel;
@@ -161,6 +201,7 @@ public abstract class Joueur {
     /**
      * Returns a specific piece from the player's collection.
      * @param i Index of the piece to be returned.
+     * @return a specific piece from the player's collection
      */
     public Piece getPiece(int i) {
         return pieces.elementAt(i);
@@ -168,6 +209,7 @@ public abstract class Joueur {
 
     /**
      * Returns the remaining time for the player.
+     * @return the remaining time for the player
      */
     public int getTempsRestant() {
         return tempsRestant;
@@ -183,6 +225,7 @@ public abstract class Joueur {
     /**
      * Abstract method to handle the player's turn.
      * This method should be implemented in the subclasses.
+     * @return true if the player's turn was successfully handled, false otherwise
      */
     public abstract boolean jouer();
 
@@ -200,6 +243,7 @@ public abstract class Joueur {
     /**
      * Abstract method to handle a draw condition proposed by the adversary.
      * This method should be implemented in the subclasses.
+     * @return true if the draw condition was successfully handled, false otherwise
      */
     public abstract boolean nulAdversaire();
     
@@ -298,6 +342,7 @@ public abstract class Joueur {
     
     /**
      * Stops the player's timer.
+     * @return the remaining time for the player after stopping the timer
      */
     public int stopTimer() {
         timer.stop();

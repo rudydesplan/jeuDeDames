@@ -30,10 +30,20 @@ import javax.swing.JLabel;
  * @since 2023-05-19
  */
 public class APropos extends JDialog {
-  
-    
+
+    /**
+     * Button that closes the dialog window when clicked.
+     */
     private JButton jButton = null;
+
+    /**
+     * Content pane of the dialog.
+     */
     private javax.swing.JPanel jContentPane = null;
+
+    /**
+     * The labels used to display the various information about the game.
+     */
     private JLabel jLabel = null;
     private JLabel jLabel1 = null;
     private JLabel jLabel10 = null;
@@ -46,10 +56,21 @@ public class APropos extends JDialog {
     private JLabel jLabel8 = null;
     private JLabel jLabel9 = null;
 
+    /**
+     * The parent window of this dialog.
+     */
     private JeuDeDamesWindow parent;
 
+    /**
+     * The height of the dialog window.
+     */
     private int height = 375;
+
+    /**
+     * The width of the dialog window.
+     */
     private int width = 400;
+}
     
     /**
      * A constructor for the APropos class. This constructor initializes the dialog box with details about the game.

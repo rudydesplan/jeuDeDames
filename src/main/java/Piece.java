@@ -24,18 +24,39 @@ public abstract class Piece extends JComponent {
      */
     public static final int NOIR = 0;
 
+    /**
+     * The color of the piece. It can be either {@link #BLANC} or {@link #NOIR}.
+     */
     protected int couleur;
 
+    /**
+     * The direction of the piece, usually dictated by the rules of the game.
+     */
     protected int direction;
-    
+
+    /**
+     * The player that controls this piece.
+     */
     protected transient Joueur joueur=null;
-    
+
+    /**
+     * The game board that the piece is located on.
+     */
     protected Plateau plateau;
 
+    /**
+     * The current position of the piece on the game board.
+     */
     protected CaseNoire position;
 
+    /**
+     * The x-coordinate of the piece, which might be used for graphical display purposes.
+     */
     protected int x;
 
+    /**
+     * The y-coordinate of the piece, which might be used for graphical display purposes.
+     */
     protected int y;
 
     /**
@@ -166,6 +187,8 @@ public abstract class Piece extends JComponent {
     /**
      * Changes the piece to a more powerful piece (if applicable). 
      * Should be implemented in a subclass.
+     * 
+     * @return true if the promotion was successful, false otherwise
      */
     public abstract boolean promotion();
 

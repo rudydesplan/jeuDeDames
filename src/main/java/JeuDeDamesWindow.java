@@ -24,12 +24,28 @@ import javax.swing.WindowConstants;
  */
 public class JeuDeDamesWindow extends JFrame {
     
+    /**
+     * Constant to set the height of the window as a proportion of the screen height.
+     * This value represents two thirds of the screen height.
+     */
     private static final float hauteur = (float) 2/3;
 
+    /**
+     * Constant to set the width of the window as a proportion of the screen width.
+     * This value represents two thirds of the screen width.
+     */
     private static final float largeur = (float) 2/3;
 
+    /**
+     * Constant to set the horizontal position of the window as a proportion of the screen width.
+     * This value represents one sixth of the screen width.
+     */
     private static final float posX = (float) 1/6;
 
+    /**
+     * Constant to set the vertical position of the window as a proportion of the screen height.
+     * This value represents one sixth of the screen height.
+     */
     private static final float posY = (float) 1/6;
 
     /**

@@ -16,20 +16,44 @@ import javax.swing.JPanel;
  */
 public class JoueurPanel extends JPanel {
     
+    /**
+     * The height of the buttons on the panel.
+     */
     private static int heightButton = 20;
-    
+
+    /**
+     * The width of the buttons on the panel.
+     */
     private static int widthButton = 250;
 
+    /**
+     * A button that allows the player to abandon the game.
+     */
     private JButton abandon = null;
 
+    /**
+     * A button that allows the player to cancel a move.
+     */
     private JButton annul = null;
-    
+
+    /**
+     * The player to whom this panel belongs.
+     */
     private transient Joueur joueur;
 
+    /**
+     * A label displaying the name of the player.
+     */
     private JLabel nom = null;
 
+    /**
+     * A button that allows the player to propose a draw.
+     */
     private JButton nul = null;
- 
+
+    /**
+     * A label displaying the remaining time for the player.
+     */
     private JLabel temps = null;
     
     /**

@@ -258,7 +258,6 @@ public class Arbitre {
      * 
      * @param fichier The file from which to load the game. The file is expected to follow a 
      * specific format containing information about the game's state.
-     * @throws IOException if an I/O error occurs while reading from the file.
      * @throws IndexOutOfBoundsException if the contents of the file are malformed or contain 
      * invalid data (e.g., missing ";" separators, invalid coordinates, etc.).
      * 

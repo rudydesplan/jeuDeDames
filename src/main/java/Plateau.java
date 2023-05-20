@@ -12,20 +12,44 @@ import javax.swing.SwingConstants;
  */
 public class Plateau extends JComponent {
     
+    /**
+     * The height of the game board.
+     */
     private static int hauteur = 20;
 
+    /**
+     * The width of the game board.
+     */
     private static int largeur = 20;
 
+    /**
+     * Indicates whether the game board is active or not.
+     */
     private boolean actif;
 
+    /**
+     * The arbitrator of the game, responsible for managing the rules and enforcing them.
+     */
     private transient Arbitre arbitre;	
 
+    /**
+     * The currently selected square on the game board.
+     */
     private CaseNoire caseSelectionnee;
 
+    /**
+     * Indicates whether a move is obligatory or not.
+     */
     private boolean obligatoire;
 
+    /**
+     * The currently selected piece on the game board.
+     */
     private Piece pieceSelec;
 
+    /**
+     * A 2D array representing the squares on the game board.
+     */
     private Case[][] plateau;
 
     /**
