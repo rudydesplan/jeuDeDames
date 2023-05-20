@@ -1,23 +1,3 @@
-/*
- *****************************************************************************
- *                         JeuDeDamesWindow.java  -  description             *
- *                            -------------------                            *
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                      *
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.awt.Dimension;
@@ -38,69 +18,44 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
 /**
- * 
- * Classe heritant de la classe <code>JFrame</code>. Cette classe gere la fenetre du jeu de dames,
- * l'affichage des composants,...
- * 
- * @author rudy
- * 
+ * This class represents the main window of the Checkers game. It manages the game's graphical user interface,
+ * including the game board and player panels, as well as menu interactions such as starting a new game, 
+ * loading and saving games, and exiting the program.
  */
 public class JeuDeDamesWindow extends JFrame {
     
-    /**
-     * Hauteur de la fenetre
-     */
     private static final float hauteur = (float) 2/3;
-    /**
-     * Largeur de la fenetre
-     */
+
     private static final float largeur = (float) 2/3;
-    /**
-     * Position X de la fenetre
-     */
+
     private static final float posX = (float) 1/6;
-    /**
-     * Position Y de la fenetre
-     */
+
     private static final float posY = (float) 1/6;
+
     /**
-     * Methode principal lancant le Jeu de Dames.
-     * @param args
+     * Main method to run the checkers game.
+     * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
         JeuDeDamesWindow jeuDeDamesWindow = new JeuDeDamesWindow();
         jeuDeDamesWindow.setVisible(true);
     }
-    /**
-     * Arbitre controlant le jeu
-     */
+
     private transient Arbitre arbitre;
     
-    /**
-     * JoueurPanel du joueur 1
-     */
     private JoueurPanel joueur1Panel = null;
-    /**
-     * JoueurPanel du joueur2
-     */
+
     private JoueurPanel joueur2Panel = null;
-    /**
-     * JPanel ou est dessine les composants de la fenetre
-     */
+
     private JPanel pane = null;
-    /**
-     * Plateau representant la damier
-     * 
-     */
+
     private Plateau plateau;
     
-    
-    
     /**
-     * Constructeur de base.
+     * Constructs a new JeuDeDamesWindow. Initializes the window settings, creates the menu bar, and sets up the game board.
      */
     public JeuDeDamesWindow() {
-        //Initialisation de la fen�tre
+        //Initialisation de la fenetre
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Jeu de Dames");
         
@@ -157,7 +112,6 @@ public class JeuDeDamesWindow extends JFrame {
         //Ajout du Menu
         getRootPane().setJMenuBar(menuBar);
         
-        
         pane = new JPanel();
         pane.setLayout(new GridBagLayout());
         
@@ -170,18 +124,15 @@ public class JeuDeDamesWindow extends JFrame {
         c.gridy= 0;
         c.gridheight = 2;
         
-        
         pane.add(plateau,c);
         arbitre = new Arbitre(plateau,this);
         plateau.setArbitre(arbitre);
         setContentPane(pane);
-        
     }
     
     /**
-     * D�finit le panel du joueur 1
-     * @param p Panel du joueur 1
-     * 
+     * Adds a panel for player 1 to the window.
+     * @param p JoueurPanel: the panel to add.
      */
     public void addJ1Panel(JoueurPanel p) {
         if(joueur1Panel!=null)
@@ -196,9 +147,10 @@ public class JeuDeDamesWindow extends JFrame {
         validate();
         repaint();
     }
+
     /**
-     * D�finit le panel du joueur 2
-     * @param p Panel du joueur 2
+     * Adds a panel for player 2 to the window.
+     * @param p JoueurPanel: the panel to add.
      */
     public void addJ2Panel(JoueurPanel p) {
         if(joueur2Panel!=null)
@@ -215,20 +167,18 @@ public class JeuDeDamesWindow extends JFrame {
     }
     
     /**
-     * M�thode qui affiche la boite a propos.
-     *
+     * Opens the "About" window.
      */
     public void aPropos() {
         APropos aProposWindow = new APropos(this);
         aProposWindow.setVisible(true);
     }
-    
+
     /**
-     * M�thode qui charge une partie enregistr�.
+     * Opens a file chooser to load a saved game.
      * @see Arbitre#charger      
      */
-    public void chargerPartie() {
-        
+    public void chargerPartie() {  
         JFileChooser chooser = new JFileChooser();
         if(arbitre.getJoueurActif()!=null)
             arbitre.getJoueurActif().stopTimer();
@@ -237,29 +187,26 @@ public class JeuDeDamesWindow extends JFrame {
             arbitre.charger(chooser.getSelectedFile());
         }
         if(arbitre.getJoueurActif()!=null)
-            arbitre.getJoueurActif().startTimer();
-        
+            arbitre.getJoueurActif().startTimer(); 
     }
     
-    
     /**
-     * M�thode appel�e pour d�buter une nouvelle partie.
+     * Opens a new window to start a new game.
      */
     public void nouvellePartie() {
         NouvellePartieWindow nouvellePartieWindow = new NouvellePartieWindow(this,arbitre);
     }
-    
+
     /**
-     * M�thode appeller lorsque le joueur quitte le jeu.
+     * Exits the program.
      */
     public void quitter() {
         System.exit(0);
     }
     
     /**
-     * M�thode qui sauvegarde la partie.
+     * Opens a file chooser to save the current game.
      * @see Arbitre#sauver
-     *
      */
     public void sauverPartie() {
         JFileChooser saver = new JFileChooser();

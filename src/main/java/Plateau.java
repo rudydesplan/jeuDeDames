@@ -1,25 +1,4 @@
-/*
- *****************************************************************************
- *                         Plateau.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
-
 
 import java.awt.Dimension;
 
@@ -28,55 +7,29 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 /**
- * Classe d�crivant le plateau du jeu de dames.
- * @author rudy
+ * The Plateau class represents the game board for a game of checkers. It extends the JComponent class 
+ * from Swing and is used as a graphical component in the game's user interface.
  */
 public class Plateau extends JComponent {
     
-    /**
-     * Hauteur des Jlabel contenant le num�ro de colonnes
-     */
     private static int hauteur = 20;
-    /**
-     * Largeur des JLabel contentant le num�ro des lignes
-     */
+
     private static int largeur = 20;
-    
-    /**
-     * Cette variable vaut true si le plateau est actif, false sinon
-     */
+
     private boolean actif;
-    
-    /**
-     * Arbitre controllant le jeu.
-     */
+
     private transient Arbitre arbitre;	
-    
-    /**
-     * Case s�lectionn�e par le joueur. Une case est s�lectionn� lorsque le joueur a cliqu� sur la pi�ce
-     * qui est dessus
-     */
+
     private CaseNoire caseSelectionnee;
-    
-    /**
-     * Coup obligatoire. Cette variable vaut true s'il y a un coup obligatoire, false sinon.
-     * 
-     */
+
     private boolean obligatoire;
-    
-    /**
-     * Piece selectionn�e par le joueur. Il s'agit de la pi�ce positionn� sur la case selectionn�e par le joueur
-     * @see Plateau#caseSelectionnee
-     */
+
     private Piece pieceSelec;
-    
-    /**
-     * Tableau de Cases symbolisant la plateau.
-     */
+
     private Case[][] plateau;
-    
+
     /**
-     * Constructeur de la classe Plateau.
+     * Default constructor for the Plateau class. It initializes the board with white and black squares.
      */
     public Plateau() {
         super();
@@ -110,12 +63,10 @@ public class Plateau extends JComponent {
             }
         }
     }
-    
+
     /**
-     * Constructeur qui r�alise une copie du plateau p. M�thode apell� pour calculer les coups obligatoires.
-     * En effet, pour ne pas perdre les donn�es de la partie, on effectue les simulation sur des copies du plateau
-     * du jeu.
-     * @param p plateau a copier.
+     * Copy constructor for the Plateau class. It copies the given Plateau object.
+     * @param p Plateau: The Plateau object to be copied.
      */
     public Plateau(Plateau p) {
         super();
@@ -127,14 +78,13 @@ public class Plateau extends JComponent {
             for(int j=0;j<10;j++) {
                 plateau[i][j] = p.get(i,j).copie(this);
             }
-        }
-        
+        }  
     }
     
     /**
-     * M�thode qui g�re la s�lection des cases.
-     * @param c Case sur laquelle le joueur a cliqu�
-     * @param p Piece se situant sur la case.
+     * Method to handle the selection of a case on the game board.
+     * @param c CaseNoire: The case selected by the player.
+     * @param p Piece: The piece in the selected case.
      */
     public void caseSelect(CaseNoire c,Piece p) {
         if(!actif)
@@ -207,15 +157,13 @@ public class Plateau extends JComponent {
                 }
             }
         }
-        repaint();
-        
+        repaint(); 
     }
-    
-    
+
     /**
-     * Retourne la case situ� � la m�me position, c'est-�-dire m�me ligne et m�me colonne. 
-     * @param c Case qui est retourn�e
-     * @return Retourne la case c.
+     * Method to get the case for the given Case object.
+     * @param c Case: The Case object to be looked up.
+     * @return Case: The Case object on the game board.
      */
     public Case get(Case c) {
         if(c!=null) {
@@ -223,12 +171,12 @@ public class Plateau extends JComponent {
         }
         return null;
     }
-    
+
     /**
-     * Retourne la case se situant � la ligne l,et � la colonne c.
-     * @param l ligne de la case.
-     * @param c colonne de la case.
-     * @return Case situ� en position l,c
+     * Method to get the case at the specified coordinates.
+     * @param l int: The row index.
+     * @param c int: The column index.
+     * @return Case: The case at the specified coordinates.
      */
     public Case get(int l, int c) {
         //Arguments sont valides
@@ -236,20 +184,19 @@ public class Plateau extends JComponent {
             return plateau[l][c];
         
         return null;
-        
     }
-    
+
     /**
-     * Retourne l'arbitre controllant le jeu
-     * @return arbitre controllant le jeu
+     * Method to get the Arbitre object associated with the game board.
+     * @return Arbitre: The Arbitre object associated with the game board.
      */
     public Arbitre getArbitre() {
         return arbitre;
     }
     
     /**
-     * Retourne la case qui est selectionn�e
-     * @return La case qui est selectionn�e, null s'il n'y a pas de case.
+     * Method to get the currently selected case.
+     * @return CaseNoire: The currently selected case.
      * @see Plateau#caseSelectionnee
      */
     public CaseNoire getCaseSelect() {
@@ -257,8 +204,8 @@ public class Plateau extends JComponent {
     }
     
     /**
-     * M�thode retournant la hauteur du plateau
-     * @return hauteur du plateau
+     * Method to get the height of the game board.
+     * @return int: The height of the game board.
      */
     @Override
     public int getHeight() {
@@ -266,72 +213,68 @@ public class Plateau extends JComponent {
     }
     
     /**
-     * Retourne la piece selectionn�e
-     * @return Piece selectionn�e, null s'il n'y a pas de pi�ce.
+     * Method to get the currently selected piece.
+     * @return Piece: The currently selected piece.
      * @see Plateau#pieceSelec
      */
     public Piece getPieceSelec() {
         return pieceSelec;
     }
-    
+
     /**
-     * Retourne la largeur du tableau
-     * @return largeur du tableau
+     * Method to get the width of the game board.
+     * @return int: The width of the game board.
      */
     @Override
     public int getWidth() {
         return 10*Case.TAILLE + largeur;
     }
-    
-    
+
     /**
-     * M�thode qui initialise le plateau. C'est a dire d�selectionne la pi�ce et la case selectionn�e.
+     * Method to reset the selection of a case and a piece.
      * @see Plateau#caseSelectionnee
      * @see Plateau#pieceSelec
-     *
      */
     public void initialise() {
         caseSelectionnee = null;
-        pieceSelec = null;
-        
+        pieceSelec = null; 
     }
     
     /**
-     * Retourne un bool�en si il y a un coup obligatoire. 
-     * @return true s'il y a un coup obligatoire, false sinon
+     * Method to check if there's an obligatory move.
+     * @return boolean: True if there's an obligatory move, false otherwise.
      * @see Plateau#obligatoire
      */
     public boolean isObligatoire() {
         return obligatoire;
     }
-    
+
     /**
-     *  M�thode qui permet d'activer ou non le plateau
-     * 
-     * @param b true pour activer le plateau, false pour le d�sactiver
+     * Method to set whether the game board is active or not.
+     * @param b boolean: True to set the game board as active, false otherwise.
      */
     public void setActif(boolean b) {
         actif = b;
     }
     
     /**
-     * Cette m�thode affecte un arbitre au plateau
-     * @param a Arbitre affect� au plateau
+     * Method to set the Arbitre object for the game board.
+     * @param a Arbitre: The Arbitre object to set for the game board.
      */
     public void setArbitre(Arbitre a) {
         arbitre = a;
     }
     
     /**
-     * Permet de mettre a jour la variable obligatoire.
-     * @param b indique s'il y a un coup obligatoire ou non.
+     * Method to set whether there is an obligatory move or not.
+     * @param b boolean: True to set an obligatory move, false otherwise.
      */
     public void setObligatoire(boolean b) {
         obligatoire = b;
     }
+
     /**
-     * Supprime les pieces se situant sur la plateau.
-     *
+     * Method to empty all squares on the game board.
      */
     public void vider() {
         for(int i=0;i<10;i++) {

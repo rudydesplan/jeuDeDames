@@ -1,23 +1,3 @@
-/*
- *****************************************************************************
- *                         NouvellePartieWindow.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                   
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.awt.event.KeyEvent;
@@ -33,109 +13,85 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
- * Cette classe decrit la fenetre qui permet de creer une nouvelle partie.
- * @author rudy
+ * Class representing the "New Game" window of the checkers game.
+ * This class extends JDialog and is responsible for creating and managing the new game dialog box,
+ * which is used to set up a new checkers game.
  */
 public class NouvellePartieWindow extends JDialog{
-    /**
-     * Bouton annuler
-     */
+
+    /** Button to cancel the creation of the new game. */
     private JButton annulButton = null;
-    /**
-     * Arbitre qui controle le jeu
-     */
+
+    /** The arbitrator of the checkers game. */
     private transient Arbitre arbitre = null;
-    /**
-     * CheckBox permettant de definir s'il y a une limite de temps.
-     */
+
+    /** Checkbox to select if the game should be time-based. */
     private JCheckBox checkTemps = null;
-    /**
-     * Hauteur de la fenetre
-     */
+
+    /** Height of the dialog box. */
     private int height = 415;
-    /**
-     * Type humain pour le joueur 1
-     */
+
+    /** Radio button to select if the first player is human. */
     private JRadioButton j1Humain = null;
-    /**
-     * Nom du joueur 1
-     */
+
+    /** Text field to input the first player's name. */
     private JTextField j1Nom = null;
-    /**
-     * Type Ordinateur pour le joueur 1
-     */
+
+    /** Radio button to select if the first player is a computer. */
     private JRadioButton j1Ordinateur = null;
-    /**
-     * Groupe les boutons j1Humain et j1Ordinateur
-     */
+  
+    /** Group of radio buttons to select the type of the first player. */
     private ButtonGroup j1Type = null;
-    /**
-     * Type humain pour le joueur 2
-     */
+
+    /** Radio button to select if the second player is human. */
     private JRadioButton j2Humain = null;
-    /**
-     * Nom du joueur 2
-     */
+
+    /** Text field to input the second player's name. */
     private JTextField j2Nom = null;
-    /**
-     * Type Ordinateur pour le joueur 2
-     */
+
+    /** Radio button to select if the second player is a computer. */
     private JRadioButton j2Ordinateur = null;
-    /**
-     * Groupe les boutons j2Humain et j2Ordinateur
-     */
+ 
+    /** Group of radio buttons to select the type of the second player. */
     private ButtonGroup j2Type = null;
-    /**
-     * Titre de la partie du joueur 1
-     */
+
+    /** Label for the first player. */
     private JLabel joueur1 = null;
-    /** 
-     * Titre de la partie du joueur 2
-     */
+
+    /** Label for the second player. */
     private JLabel joueur2 = null;
-    
-    /**
-     * JPanel contenant les composants de la fenetre
-     */
+
+    /** The panel containing all the components of the dialog box. */
     private JPanel jPanel = null;
-    /**
-     * JLabel Minute :
-     */
+
+    /** Label for the minutes field. */
     private JLabel labelMinute = null;
-    /**
-     * JLabel contenant un cours message d'explication
-     */
+
+    /** Message to be displayed on the dialog box. */
     private JLabel message = null;
-    
-    /**
-     * JTextField permettant d'entre un nombre de minute maximum
-     */
+
+    /** Text field to input the number of minutes for the game. */
     private JTextField nbMinute = null;
-    /**
-     * Jlabel : "Nom : " pour le joueur 1
-     */
+
+    /** Label for the first player's name. */
     private JLabel nomJ1 = null;
-    /**
-     * Jlabel : "Nom : " pour le joueur 2
-     */
+
+    /** Label for the second player's name. */
     private JLabel nomJ2 = null;
-    /**
-     * Bouton ok
-     */
+
+    /** Button to confirm the creation of the new game. */
     private JButton okButton = null;
-    /**
-     * Fenetre parente
-     */
+
+    /** Parent window of the dialog box. */
     private JeuDeDamesWindow parent = null;
-    /**
-     * Largeur de la fenetre
-     */
+
+    /** Width of the dialog box. */
     private int width = 400;
-    
-    /**
-     * Constructeur par default
-     * @param a Arbitre du jeu
-     * @param p Fenetre parente
+
+    /** 
+     * Constructor for the NouvellePartieWindow class.
+     * @param p The parent window of the dialog box.
+     * @param a The arbitrator of the checkers game.
      */
     public NouvellePartieWindow(JeuDeDamesWindow p, Arbitre a)  {
         super(p,"Nouvelle Partie",true);
@@ -145,10 +101,10 @@ public class NouvellePartieWindow extends JDialog{
         arbitre = a;
         initialize();
     }
-    
+
     /**
-     * Methode qui cree une nouvelle partie avec les donnees rentrees.
-     * @return true si tout les champs on ete rentres, false sinon.
+     * Creates a new checkers game according to the inputs in the dialog box.
+     * @return True if the new game was successfully created, false otherwise.
      */
     private boolean creeNouvellePartie() {
         String j1 = j1Nom.getText();
@@ -227,7 +183,8 @@ public class NouvellePartieWindow extends JDialog{
     }
     
     /**
-     * Redefinition de la methode dispose de JDialog
+     * Overridden dispose method from JDialog.
+     * Restarts the active player's timer when the dialog box is disposed.
      */
     @Override
     public void dispose() {
@@ -235,12 +192,11 @@ public class NouvellePartieWindow extends JDialog{
         if(arbitre.getJoueurActif()!=null)
             arbitre.getJoueurActif().startTimer();
     }
+
     /**
-     * Cette methode initialise <code>annulButton</code>, et le retourne.
-     * 	
-     * @return javax.swing.JButton
-     * @see NouvellePartieWindow#annulButton	
-     */    
+     * Retrieves the cancel button, initializing it if necessary.
+     * @return JButton - the cancel button for the GUI.
+     */
     private JButton getAnnulButton() {
         if (annulButton == null) {
             annulButton = new JButton();
@@ -253,9 +209,8 @@ public class NouvellePartieWindow extends JDialog{
     }
     
     /**
-     * Retourne je JCheckBox checkTemps
-     * @return Retourne le JCheckBox checkTemps
-     * @see NouvellePartieWindow#checkTemps
+     * Retrieves the time check box, initializing it if necessary.
+     * @return JCheckBox - the time check box for the GUI.
      */
     private JCheckBox getCheckTemps() {
         if(checkTemps == null) {
@@ -274,13 +229,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return checkTemps;
     }
-    
+  
     /**
-     * Cette methode initialise <code>j1Humain</code>, et le retourne
-     * 	
-     * @return javax.swing.JRadioButton	
-     * @see NouvellePartieWindow#j1Humain
-     */    
+     * Retrieves the human player 1 radio button, initializing it if necessary.
+     * @return JRadioButton - the human player 1 radio button for the GUI.
+     */
     private JRadioButton getJ1Humain() {
         if (j1Humain == null) {
             j1Humain = new JRadioButton();
@@ -289,13 +242,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j1Humain;
     }
-    
+
     /**
-     * Cette methode initialise le JTextField <code>j1Nom</code>, et le retourne.	
-     * 	
-     * @return javax.swing.JTextField	
-     * @see NouvellePartieWindow#j1Nom
-     */    
+     * Retrieves the player 1 name text field, initializing it if necessary.
+     * @return JTextField - the player 1 name text field for the GUI.
+     */
     private JTextField getJ1Nom() {
         if (j1Nom == null) {
             j1Nom = new JTextField();
@@ -303,12 +254,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j1Nom;
     }
+
     /**
-     * Cette methode initialise <code>j1Ordinateur</code>,et le retourne.
-     * 	
-     * @return javax.swing.JRadioButton
-     * @see NouvellePartieWindow#j1Ordinateur	
-     */    
+     * Retrieves the computer player 1 radio button, initializing it if necessary.
+     * @return JRadioButton - the computer player 1 radio button for the GUI.
+     */
     private JRadioButton getJ1Ordinateur() {
         if (j1Ordinateur == null) {
             j1Ordinateur = new JRadioButton();
@@ -319,9 +269,8 @@ public class NouvellePartieWindow extends JDialog{
     }
     
     /**
-     * Cette methode initialise <code>j1Type</code>, et le retourne
-     * @return j1Type
-     * @see NouvellePartieWindow#j1Type
+     * Retrieves the player 1 type button group, initializing it if necessary.
+     * @return ButtonGroup - the player 1 type button group for the GUI.
      */
     private ButtonGroup getJ1Type() {
         if(j1Type == null) {
@@ -329,12 +278,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j1Type;
     }
+
     /**
-     * Initialise <code>J1Humain</code>, et le retourne
-     * 	
-     * @return javax.swing.JRadioButton
-     * @see NouvellePartieWindow#j1Humain	
-     */    
+     * Retrieves the human player 2 radio button, initializing it if necessary.
+     * @return JRadioButton - the human player 2 radio button for the GUI.
+     */
     private JRadioButton getJ2Humain() {
         if (j2Humain == null) {
             j2Humain = new JRadioButton();
@@ -343,12 +291,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j2Humain;
     }
+
     /**
-     * Cette methode initialise <code>j2Nom</code>, et le retourne.	
-     * 	
-     * @return javax.swing.JTextField
-     * @see NouvellePartieWindow#j2Nom	
-     */    
+     * Retrieves the player 2 name text field, initializing it if necessary.
+     * @return JTextField - the player 2 name text field for the GUI.
+     */
     private JTextField getJ2Nom() {
         if (j2Nom == null) {
             j2Nom = new JTextField();
@@ -356,12 +303,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j2Nom;
     }
+   
     /**
-     * Initialise <code>J2Ordinateur</code>, et le retourne
-     * 	
-     * @return javax.swing.JRadioButton
-     * @see NouvellePartieWindow#j2Ordinateur	
-     */    
+     * Retrieves the computer player 2 radio button, initializing it if necessary.
+     * @return JRadioButton - the computer player 2 radio button for the GUI.
+     */
     private JRadioButton getJ2Ordinateur() {
         if (j2Ordinateur == null) {
             j2Ordinateur = new JRadioButton();
@@ -370,11 +316,10 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j2Ordinateur;
     }
-    
+
     /**
-     * Cette methode initialise <code>j2Type</code>, et le retourne
-     * @return j2Type
-     * @see NouvellePartieWindow#j2Type
+     * Retrieves the player 2 type button group, initializing it if necessary.
+     * @return ButtonGroup - the player 2 type button group for the GUI.
      */
     private ButtonGroup getJ2Type() {
         if(j2Type == null) {
@@ -382,11 +327,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return j2Type;
     }
+
     /**
-     * Cette methode initialise le jpanel, et place dessus tous les elements.
-     * 	
-     * @return javax.swing.JPanel	
-     */    
+     * Retrieves the JPanel, initializing it if necessary.
+     * @return JPanel - the main panel for the GUI.
+     */
     private JPanel getJPanel() {
         if (jPanel == null) {
             labelMinute = new JLabel();
@@ -440,10 +385,9 @@ public class NouvellePartieWindow extends JDialog{
     }
     
     /**
-     * This method initializes jTextField	
-     * 	
-     * @return javax.swing.JTextField	
-     */    
+     * Retrieves the number of minutes text field, initializing it if necessary.
+     * @return JTextField - the number of minutes text field for the GUI.
+     */
     private JTextField getNbMinute() {
         if (nbMinute == null) {
             nbMinute = new JTextField();
@@ -451,12 +395,11 @@ public class NouvellePartieWindow extends JDialog{
         }
         return nbMinute;
     }
+
     /**
-     * Cette methode initialise <code>okButton</code>, et le retourne.	
-     * 	
-     * @return javax.swing.JButton	
-     * @see NouvellePartieWindow#okButton
-     */    
+     * Retrieves the OK button, initializing it if necessary.
+     * @return JButton - the OK button for the GUI.
+     */
     private JButton getOkButton() {
         if (okButton == null) {
             okButton = new JButton();
@@ -470,9 +413,9 @@ public class NouvellePartieWindow extends JDialog{
         }
         return okButton;
     }
-    
+
     /**
-     * Cette methode initialise la fenetre.
+     * Initializes the game board.
      */
     private void initialize() {
         
@@ -490,12 +433,13 @@ public class NouvellePartieWindow extends JDialog{
         this.setMaximumSize(new java.awt.Dimension(width,height));
         
     }
-    
+
     /**
-     * Methode qui verifie que le <code>nom</code> est correct. Un nom est correct s'il a au moins un
-     * caractere et ne contient pas les caracteres , [ ] ou |.
-     * @param nom Nom que l'on souhaite verifier
-     * @return true si le nom est correct, false sinon
+     * Checks if the provided name is correct according to the application's rules. 
+     * The name is considered correct if it's not empty and doesn't contain the characters ',', '|', '[' or ']'.
+     *
+     * @param nom - the name to be checked.
+     * @return boolean - returns true if the name is correct, false otherwise.
      */
     private boolean nomCorrect(String nom) {
         

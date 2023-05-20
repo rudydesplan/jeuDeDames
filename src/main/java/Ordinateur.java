@@ -1,65 +1,48 @@
-/*
- *****************************************************************************
- *                         Ordinateur.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                     
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 import java.util.Vector;
 
 /**
- * 
- * Classe decrvant un joueur du Jeu de Dames controle par l'ordinateur.
- * @todo Gestion dames.
- * @author rudy
+ * The Ordinateur class represents a computer-controlled player in the game of checkers (jeu de dames).
+ * This class provides concrete implementations for the abstract methods in the superclass Joueur.
+ * @see Joueur
  */
-
 public class Ordinateur extends Joueur {
     
     /**
-     * Constructeur de la classe Ordinateur.
-     * @param n Nom du joueur.
-     * @param c Couleur du joueur.
-     * @param p Plateau sur lequel le joueur joue.
+     * Constructor for the Ordinateur class.
+     * Initializes the computer-controlled player with a name, color, and the game board.
+     * @param n String: The name of the player.
+     * @param c int: The color of the player.
+     * @param p Plateau: The game board.
      */
     public Ordinateur(String n,int c,Plateau p) {
         super(n,c,p);
     }
-    
+
     /**
-     * Methode appelee lorsque l'adversaire abandonne
+     * Method that handles the opponent's surrender.
+     * As this is a computer player, no action is performed.
      */
+    @Override
     public void abandonAdversaire() {
-        // L'ordinateur ne gere pas ca
     }
     
     /**
-     * Methode qui demande au <code>joueur</code> s'il accepte que son 
-     * adversaire annule son dernier coup.
-     * @return toujours true, l'ordinateur est sympa !
+     * Method to handle undoing a move.
+     * The computer player always accepts the undo request.
+     * @return boolean: Always returns true.
      */
+    @Override
     public boolean annulerCoup() {
         return true;
     }
     
     /**
-     * Methode faisant jouer le joueur.
-     * @return true, si un coup a ete jouer, false sinon.
+     * Method to handle the player's turn.
+     * The computer player makes a move following the game rules.
+     * @return boolean: Returns true if the computer player can make a move, false otherwise.
      */
+    @Override
     public boolean jouer() {
         startTimer();
         setActif(true);
@@ -80,7 +63,6 @@ public class Ordinateur extends Joueur {
             // On avertie l'arbitre qu'un coup est joue.
             arbitre.finCoup(c,r2.getNbPrises());
             return true;
-            
         }
         
         for(int i=0; i<pieces.size(); i++) {
@@ -94,29 +76,30 @@ public class Ordinateur extends Joueur {
                 return true;
             }
         }
-        
         return false;
     }
     
-    
     /**
-     * Methode qui demande au <code>joueur</code> s'il veut que la partie soit nulle.
-     * @return On renvoit toujours true, l'ordinateur est sympa ! 
+     * Method to handle a draw condition proposed by the adversary.
+     * The computer player always accepts the draw proposal.
+     * @return boolean: Always returns true.
      */
+    @Override
     public boolean nulAdversaire() {
         return true;
     }
-    
+
     /**
-     * Methode appelee lorsque l'ordinateur a demande le nul
+     * Method to handle a refusal of a draw.
+     * As this is a computer player, no action is performed.
      */
+    @Override
     public void nulRefuse() {
-        // L'ordinateur ne gere pas ca
     }
     
     /**
-     * Associe un <code>JoueurPanel</code> au joueur
-     * @param p la panel associe
+     * Sets the player's panel and hides the panel's button.
+     * @param p JoueurPanel: The panel to be set for the player.
      */
     @Override
     public void setPanel(JoueurPanel p) {
@@ -125,10 +108,11 @@ public class Ordinateur extends Joueur {
     }
     
     /**
-     * Methode renvoyant un chaine decrivant le joueur. La chaine est de la forme : O:NomDuJoueur
-     * @return chaine decrivant le joueur, elle est de la forme :O:NomDuJoueur
+     * Returns a string representation of the computer player.
+     * @return String: A string representing the computer player.
      */
+    @Override
     public String toString() {
-        return "O:"+ nom;
+        return "Ordinateur:"+ nom;
     }
 }

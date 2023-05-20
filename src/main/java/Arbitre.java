@@ -1,23 +1,3 @@
-/*
- *****************************************************************************
- *                         Arbitre.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                    
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.io.BufferedReader;
@@ -31,92 +11,97 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 /**
- * 
- * La classe arbitre est la classe qui controle le deroulement du jeu. C'est
- * l'Arbitre qui verifie que la partie n'est pas termine, si le coup est
- * valable, determine les coups obligatoires, etc.
- * 
- * @author rudy
+ * This class represents a game controller for a game similar to Checkers or Draughts ("Jeu De Dames" in French).
+ * It manages the game state and controls game actions including determining the end of the game, 
+ * updating obligatory moves, starting a new game, and saving the game state to a file.
+ *
+ * It includes methods for actions such as:
+ * - finishing a turn,
+ * - ending a game,
+ * - ending the game when time runs out,
+ * - getting the current obligatory move,
+ * - getting the current active player,
+ * - getting the game board,
+ * - updating obligatory moves,
+ * - starting a new game,
+ * - saving the game state to a file,
+ * - setting active player, and more.
+ *
+ * The class has a relationship with several other classes, including Rafle, CaseNoire, Plateau, Joueur and Piece, 
+ * which represent various components of the game.
  */
 public class Arbitre {
     
     /**
-     * Constante indiquant une partie nulle.
+     * Constant value representing a null move.
      */
     public static final int NUL = 1;
-    
+
     /**
-     * Constante indiquant une partie perdue.
+     * Constant value representing a lost game.
      */
     public static final int PERDU = 0;
-    
+
     /**
-     * Coup en cours.
+     * Current move in the game.
      */
     private Rafle coupCourant = null;
-    
+
     /**
-     * Vecteur contenant toutes les coups obligatoires possibles. Chaque element
-     * de ce vecteur est une instance de la classe Rafle.
-     * 
-     * @see Arbitre#calculCoupObligatoire()
-     * @see Rafle
+     * List of moves in the game.
      */
     private Vector<Rafle> coups = null;
-    
+
     /**
-     * Coup Suivant.
+     * Next move in the game.
      */
     private Rafle coupSuivant = null;
-    
+
     /**
-     * Instance de la fenetre ou se deroule le jeu.
+     * The game window instance.
      */
     private JeuDeDamesWindow fenetre = null;
-    
+
     /**
-     * Historique des coups
+     * The history of moves made in the game.
      */
     private HistoriqueCoup historique = null;
-    
+
     /**
-     * Joueur actif du Jeu.
+     * Current player in the game.
      */
     private Joueur j = null;
-    
+
     /**
-     * Premier joueur du Jeu de Dames
+     * First player in the game.
      */
     private Joueur j1;
-    
+
     /**
-     * Deuxieme joueur du Jeu de Dames
+     * Second player in the game.
      */
     private Joueur j2;
-    
+
     /**
-     * Stocke le nombre de secondes restantes le timer est mis en pause
+     * The pause time between moves.
      */
     private int pause;
-    
+
     /**
-     * Contient la disposition des pions sur le plateau.
+     * The game board instance.
      */
     private Plateau plateau = null;
-    
+
     /**
-     * Limte de temps de reflexion en secondes.
+     * The total time for the game.
      */
     private int temps = 0;
-    
+
     /**
-     * Constructeur de base d'Arbitre. Il prend en argument qu'une instance de
-     * la classe Plateau ou se deroule le jeu.
-     * 
-     * @param p
-     *            Plateau du jeu.
-     * @param parent
-     *            Fenetre ou se deroule le jeu
+     * Constructor for the Arbitre class.
+     *
+     * @param p The game board instance.
+     * @param parent The game window instance.
      */
     public Arbitre(Plateau p, JeuDeDamesWindow parent) {
         plateau = p;
@@ -126,11 +111,9 @@ public class Arbitre {
     }
     
     /**
-     * Methode appelee lorsque le <code>joueur</code> abandonne. A la suite de
-     * l'appel a cet fonction, la partie est donc termine.
-     * 
-     * @param joueur
-     *            joueur qui abandonne.
+     * Handle player surrender event.
+     *
+     * @param joueur The player that is surrendering.
      */
     public void abandon(Joueur joueur) {
         
@@ -140,12 +123,9 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui annule le dernier coup de <code>joueur</code>. On demande
-     * au preablable a son adversaire s'il est d'accord, si oui on annule son
-     * dernier coup, sinon on ne fait rien.
-     * 
-     * @param joueur
-     *            Joueur qui veut annuler son dernier coup.
+     * Undo a player's move.
+     *
+     * @param joueur The player who wishes to undo his move.
      */
     public void annulerCoup(Joueur joueur) {
         if (coupCourant != null) {
@@ -220,16 +200,7 @@ public class Arbitre {
     }
     
     /**
-     * <p>
-     * Cette methode calcul les coups obligatoires ou rafle que le joueur peut
-     * effectuer dans le tour. La liste de ces coups se trouve dans le vecteur
-     * <code>coups</code>.
-     * </p>
-     * <p>
-     * Dans un premier temps on calcul les coups obligatoires, si on en trouve,
-     * on met en surbrillance les cases en question.
-     * </p>
-     * 
+     * Calculate the obligatory move.
      * @see Rafle
      * @see Arbitre#coups
      * @see CaseNoire#setObligatoire(boolean)
@@ -273,8 +244,7 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui change le joueur qui detient le tour.
-     *  
+     * Change the current player.
      */
     public void changerJoueur() {
         j.stopTimer();
@@ -282,14 +252,20 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui charge une partie enregistrer dans un fichier.
+     * This method is responsible for loading a game from a specified file.
+     * The game is set up by reading the game's state from the file, including player types, 
+     * their pieces, and the game's history.
      * 
-     * @param fichier
-     *            Fichier contenant le sauvegarde de la partie.
+     * @param fichier The file from which to load the game. The file is expected to follow a 
+     * specific format containing information about the game's state.
+     * @throws IOException if an I/O error occurs while reading from the file.
+     * @throws IndexOutOfBoundsException if the contents of the file are malformed or contain 
+     * invalid data (e.g., missing ";" separators, invalid coordinates, etc.).
+     * 
      * @see Arbitre#sauver(File)
-     * @todo Gestion des exceptions
      */
     public void charger(File fichier) {
+        BufferedReader in = null;
         try {
             
             //Chaine permettant de stocker la liste des pieces.
@@ -302,7 +278,7 @@ public class Arbitre {
             Piece piece;
             
             // Tampon permettant de lire dans le fichier.
-            BufferedReader in = new BufferedReader(new FileReader(fichier));
+            in = new BufferedReader(new FileReader(fichier));
             
             // Vide le plateau des pieces qu'il s'y trouvait
             plateau.vider();
@@ -315,8 +291,7 @@ public class Arbitre {
                 j1 = new Ordinateur(s.substring(2), Piece.BLANC, plateau);
             
             fenetre.addJ1Panel(new JoueurPanel(j1));
-            // On met la position des pieces dans s, pour pouvoir travailler
-            // dessus
+
             s = in.readLine();
             // Lecture des pieces du premier joueur
             while (pos2 != -1) {
@@ -366,8 +341,6 @@ public class Arbitre {
                 pos1 = pos2 + 1;
             }
             
-            
-            
             //Mis a jour du joueur actif
             if (j2.getNom().compareTo(in.readLine()) == 0) {
                 j = j2;
@@ -377,9 +350,7 @@ public class Arbitre {
                 j1.setActif(true);
             }
             
-            /*
-             * Lecture du temps
-             */
+            //Lecture du temps
             try {
                 int temps = Integer.parseInt(in.readLine());
                 j1.setTemps(temps);
@@ -389,7 +360,6 @@ public class Arbitre {
                 j1.setTemps(-1);
                 j2.setTemps(-1);
             }
-            
             
             //Lecture de l'historique des coups
             historique.clear();
@@ -403,20 +373,29 @@ public class Arbitre {
                 historique.clear();
             }
             
-        } catch (IOException | IndexOutOfBoundsException e) {
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null,
                     "Erreur lors de la lecture du fichier : "
-                    + fichier.getName(), "Jeu De Dames",
+                    + fichier.getName() + "\nDétails: " + e.getMessage(), "Jeu De Dames",
                     JOptionPane.ERROR_MESSAGE);
-            historique.clear();
-            plateau.vider();
-            if(j1!=null) {
-                j1.hidePanel();
+            cleanupGame();
+        } catch (IndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null,
+                    "Erreur dans le contenu du fichier : "
+                    + fichier.getName() + "\nLe fichier est mal formé ou contient des données invalides.", "Jeu De Dames",
+                    JOptionPane.ERROR_MESSAGE);
+            cleanupGame();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null,
+                        "Erreur lors de la fermeture du fichier : "
+                        + fichier.getName(), "Jeu De Dames",
+                        JOptionPane.ERROR_MESSAGE);
+                }
             }
-            if(j2!=null) {
-                j2.hidePanel();
-            }
-            return;
         }
         
         //Attribution des adversaires
@@ -427,10 +406,25 @@ public class Arbitre {
         calculCoupObligatoire();
         plateau.setActif(true);
     }
+
+    /**
+     * This method is responsible for cleaning up the game when an error occurs during loading.
+     * It clears the game's history, empties the game board, and hides the panels of the players.
+     * This method is typically called when an exception is caught during the game loading process.
+     */
+    private void cleanupGame() {
+        historique.clear();
+        plateau.vider();
+        if (j1 != null) {
+            j1.hidePanel();
+        }
+        if (j2 != null) {
+            j2.hidePanel();
+        }
+    }
     
     /**
-     * Dessine sur le plateau les coups obligatoires.
-     * 
+     * Draw the obligatory move.
      * @see Arbitre#calculCoupObligatoire()
      */
     public void dessineCoupObligatoire() {
@@ -442,8 +436,7 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui efface les coups obligatoires dessine sur le plateau
-     * 
+     * Erase the obligatory move.
      * @see Arbitre#calculCoupObligatoire()
      */
     public void effaceCoupObligatoire() {
@@ -454,18 +447,10 @@ public class Arbitre {
     }
     
     /**
-     * <p>
-     * Methode apelle lorsque le joueur a effectue un coup. Dans cette methode,
-     * on enregistre le coup effectue, on verifie que la partie n'est pas
-     * termine, et on "prepare" le coup suivant; c'est-a-dire que soit on calcul
-     * le(s) coup(s) obligatoire(s) de l'autre joueur si le joueur ayant
-     * effectue ce coup ne peut plus jouer, soit le joueur peut encore jouer
-     * dans ce cas on met a jour la liste des coups obligatoires.
-     * </p>
-     * 
-     * @param prise
-     *            Nombre de prise possible restantes
-     * @param coup
+     * Handles the end of a move. Removes captured pieces, updates the game state, and switches the active player if necessary.
+     *
+     * @param coup  The move just played.
+     * @param prise The number of captures made in the move.
      */
     public void finCoup(Rafle coup, int prise) {
         
@@ -528,11 +513,9 @@ public class Arbitre {
     }
     
     /**
-     * Methode apelle lorsque la partie est termine. On affiche le gagnant, et
-     * on reinitialise la fenetre.
-     * 
-     * @param raison
-     *            Entier indiquant la raison de la fin de partie.
+     * Handles the end of the game based on the given reason. Displays the winner or a draw message, and deactivates the game board.
+     *
+     * @param raison The reason for ending the game.
      * @see Arbitre#PERDU
      * @see Arbitre#NUL
      */
@@ -559,12 +542,10 @@ public class Arbitre {
         
         j1 = null;
         j2 = null;
-        
     }
     
     /**
-     * Methode appele lorsqu'un joueur depasse le temps indique.
-     *  
+     * Handles the end of the game when the time runs out for the active player.
      */
     public void finTemps() {
         j.stopTimer();
@@ -575,10 +556,9 @@ public class Arbitre {
     }
     
     /**
-     * Retourne sous forme d'un vecteur la liste des coups obligatoires. Chaque
-     * coup obligatoire est stocke sous forme de <code>Rafle</code>.
-     * 
-     * @return Un vecteur contenant tous les coups obligatoires.
+     * Returns the obligatory moves for the active player.
+     *
+     * @return A vector containing all the obligatory moves.
      * @see Rafle
      */
     public Vector<Rafle> getCoupObligatoire() {
@@ -586,11 +566,10 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui renvoit le joueur ayant le nom <code>nom</code>
-     * 
-     * @param nom
-     *            nom du joueur que l'on recherche
-     * @return joueur ayant le nom <code>nom</code>
+     * Returns the player with the given name.
+     *
+     * @param nom The name of the player.
+     * @return The player with the given name.
      */
     public Joueur getJoueur(String nom) {
         if (j1.getNom().compareTo(nom) == 0)
@@ -598,51 +577,48 @@ public class Arbitre {
         
         return j2;
     }
-    
+
     /**
-     * Retourne le joueur 1, celui qui controle les pions blancs.
-     * 
-     * @return le joueur qui possede les blancs.
+     * Returns the first player.
+     *
+     * @return The first player.
      */
     public Joueur getJoueur1() {
         return j1;
     }
-    
+
     /**
-     * Retourne le joueur 2, celui qui controle les pions noirs.
-     * 
-     * @return le joueur qui possede les noirs.
+     * Returns the second player.
+     *
+     * @return The second player.
      */
     public Joueur getJoueur2() {
         return j2;
     }
-    
+
     /**
-     * Retourne le joueur qui joue.
-     * 
-     * @return Renvois le joueur a qui c'est le tour de jouer.
+     * Returns the currently active player.
+     *
+     * @return The active player.
      */
     public Joueur getJoueurActif() {
         return j;
     }
-    
+
     /**
-     * Retourne la plateau ou se deroule le jeu.
-     * 
-     * @return plateau ou se deroule le jeu.
+     * Returns the game board.
+     *
+     * @return The game board.
      */
     public Plateau getPlateau() {
         return plateau;
     }
     
     /**
-     * Retourne la rafle parmi la liste des coups obligatoires contenu dans
-     * <code>coups</code> qui commence par la case <code>c</code>.
-     * 
-     * @param c
-     *            Case recherche.
-     * @return La rafle dont la premiere case est <code>c</code>, null si
-     *         elle n'existe pas.
+     * Returns the Rafle starting at the given CaseNoire.
+     *
+     * @param c The CaseNoire where the Rafle starts.
+     * @return The Rafle starting at the given CaseNoire.
      */
     public Rafle getRafle(CaseNoire c) {
         for (int i = 0; i < coups.size(); i++) {
@@ -653,23 +629,23 @@ public class Arbitre {
     }
     
     /**
-     * Methode retournant la limite de temps en secondes
-     * 
-     * @return Limite de temps en secondes
+     * Returns the remaining game time.
+     *
+     * @return The remaining game time.
      */
     public int getTemps() {
         return temps;
     }
     
     /**
-     * Methode qui lit une piece a partir de la chaine s
-     * 
-     * @param s
-     *            chaine a partir de laquelle la piece est cree
-     * @param j
-     *            Joueur a qui la piece va appartenir
-     * @throws IndexOutOfBoundsException Lancee lorsqu'il y a un probleme de lecture
-     * @return La piece cree a partir de s
+     * Converts a string representation of a Piece into an actual Piece object. 
+     * The string should follow the format: [Piece type][Index number] [Line number][Column number]
+     * For example, "D1 5,7" creates a 'Dame' at position 5,7.
+     *
+     * @param s the string representation of the Piece to create
+     * @param j the Joueur (player) to whom the piece belongs
+     * @return a Piece object represented by the string input
+     * @throws IndexOutOfBoundsException if the provided line or column is outside the range (0-9)
      */
     private Piece lirePiece(String s, Joueur j) throws IndexOutOfBoundsException {
         Piece p = null;
@@ -695,10 +671,14 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui genere une rafle a partir de la String s.
-     * @param s Chaine a partir de laquelle la rafle est generee
-     * @return la rafle generee a partir de s.
-     * @throws IndexOutOfBoundsException Lancee lorsqu'il y a un probleme de lecture
+     * Converts a string representation of a Rafle (sequence of capturing moves) into an actual Rafle object. 
+     * The string should follow the format: [Player's name]|[Start square]|[Captured square]|[Captured piece's description][Subsequent rafles]
+     * For example, "John|1,1|2,2|D1 5,7[3,3|4,4|D2 6,8]" represents a rafle by player 'John' starting from position 1,1, capturing a piece at position 2,2 and subsequent rafles.
+     * If a square or a piece is null, it should be represented as "null".
+     *
+     * @param s the string representation of the Rafle to create
+     * @return a Rafle object represented by the string input
+     * @throws IndexOutOfBoundsException if the provided line or column is outside the range (0-9)
      */
     private Rafle lireRafle(String s) throws IndexOutOfBoundsException {
         
@@ -761,10 +741,9 @@ public class Arbitre {
     }
     
     /**
-     * Met a jour la liste des coups obligatoires lorsque un joueur a
-     * selectionnee une piece.
-     * 
-     * @param c
+     * Updates the obligatory moves after a move is made.
+     *
+     * @param c The CaseNoire where the move was made.
      * @see Arbitre#calculCoupObligatoire()
      */
     public void misAJourCoupsObligatoire(CaseNoire c) {
@@ -780,9 +759,7 @@ public class Arbitre {
     }
     
     /**
-     * Methode qui initialise une nouvelle partie. Dans cette methode, on cree
-     * les deux Joueurs, on positionne les pieces de ces joueurs sur le damier.
-     *  
+     * Resets the game state to start a new game.
      */
     public void nouvellePartie() {
         
@@ -820,13 +797,9 @@ public class Arbitre {
     }
     
     /**
-     * Methode appelee lorsque le <code>joueur</code> propose une partie
-     * nulle. Un message est envoye a son adversaire, si celui ci accepte la
-     * partie nulle, la partie est declare comme nulle, et le jeu s'arrete.
-     * Sinon la partie continue.
-     * 
-     * @param joueur
-     *            joueur qui propose le nul.
+     * Handles the draw offer from a player. Ends the game in a draw if the other player agrees.
+     *
+     * @param joueur The player offering the draw.
      */
     public void nul(Joueur joueur) {
         
@@ -838,28 +811,16 @@ public class Arbitre {
     }
     
     /**
-     * <p>
-     * Methode qui sauvegarde la partie.
-     * </p>
-     * <p>
-     * En premier on trouve le nom du premier joueur (les blancs). Ensuite on
-     * trouve la liste des pieces avec les positions. Chaque piece a cette forme :
-     * "T:l,c" ou T vaut P pour un pion, D pour une dame; <code>c</code> est
-     * la colonne ou se trouve la piece, <code>l</code> la ligne. Les pieces
-     * sont separees par ";" A la suite, on trouve de la meme maniere le nom du
-     * deuxieme joueur, ainsi que la liste de ces pieces. Pour finir le nom du
-     * joueur actif.
-     * </p>
-     * 
-     * @param fichier
-     *            Fichier dans lequel la partie est sauvegarder.
+     * Save the game to a file.
+     *
+     * @param fichier The file to which to save the game.
      * @see Arbitre#charger(File)
-     * @todo Gestion des execeptions
      */
     public void sauver(File fichier) {
+        BufferedWriter out = null;
         try {
             
-            BufferedWriter out = new BufferedWriter(new FileWriter(fichier));
+            out = new BufferedWriter(new FileWriter(fichier));
             
             //Sauvegarde Joueur 1
             out.write(j1.toString());
@@ -893,16 +854,26 @@ public class Arbitre {
         } catch (IOException ioe) {
             JOptionPane.showMessageDialog(null,
                     "Erreur lors de la sauvegarde de la partie dans le fichier : "
-                    + fichier.getName(), "Jeu De Dames",
+                    + fichier.getName() + "\nDétails: " + ioe.getMessage(), "Jeu De Dames",
                     JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null,
+                        "Erreur lors de la fermeture du fichier : "
+                        + fichier.getName(), "Jeu De Dames",
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
     
     /**
-     * Permet de definir le joueur 1
-     * 
-     * @param j
-     *            joueur 1
+     * Set the first player.
+     *
+     * @param j The player to be set as the first player.
      */
     public void setJoueur1(Joueur j) {
         j1 = j;
@@ -910,10 +881,9 @@ public class Arbitre {
     }
     
     /**
-     * Permet de definir le joueur 2
-     * 
-     * @param j
-     *            joueur 2
+     * Set the second player.
+     *
+     * @param j The player to be set as the second player.
      */
     public void setJoueur2(Joueur j) {
         j2 = j;
@@ -921,13 +891,11 @@ public class Arbitre {
     }
     
     /**
-     * Permet de definir le joueur actif
-     * 
-     * @param joueur
-     *            joueur actif
+     * Set the active player.
+     *
+     * @param joueur The player to be set as the active player.
      */
     public void setJoueurActif(Joueur joueur) {
         j = joueur;
     }
-    
 }

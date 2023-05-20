@@ -1,74 +1,33 @@
-/*
- *****************************************************************************
- *                         rafle.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                    
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.util.Vector;
 
 /**
- * <p>La classe Rafle symbolise un coup d'une rafle effectu�e au jeu de dames. Une rafle
- * est donc symbolis� par une liste de Rafle. Chaque �l�ment (objet) contient la case du
- * d�but du coup, la case prise lors du coup pr�c�dent et un vecteur contenant la listes des cases suivantes possibles.
- * En effet il se peut que pour une case donn�e il y ait plusieurs autres coups possibles.</p>
- * 
- * <p>On trouve �galement le nombres de pions pris a partir de la case "debut".</p>
- *
- * <p> Il est important de noter que l'on retient que les coups <i>maximums</i>, c'est � dire ceux
- * qui permettent de prendre le maximum de pions.</p> 
- * @author rudy
- * 
+ * The Rafle class represents a sequence of captures in a game of checkers. 
+ * This includes details about the starting square, the capture square, 
+ * further captures in the sequence, the player executing the sequence,
+ * the number of captures and the piece being captured.
  */
 public class Rafle {
-    
-    /**
-     * Case du d�but du coup.
-     */
+
     private CaseNoire caseDebut;
-    /**
-     * Case prise lors du coup pr�c�dent.
-     */
+
     private CaseNoire casePrise;
-    
-    /**
-     * Vecteur contenant la listes des cases suivantes potentiels.
-     */
+
     private Vector<Rafle> casesSuivantes;
-    
-    /**
-     * Joueur effectuant la rafle;
-     */
+
     private Joueur joueur = null;
-    /**
-     * Nombre prises maximum par la rafle commen�ant � la case caseDebut.
-     */
+
     private int nbPrises;
-    /**
-     * Piece prise lors du coup pr�c�dent
-     */
+
     private Piece piecePrise;
-    
+
     /**
-     * Constructeur par d�faut
-     * @param d case 
-     * @param p case ou la pi�ce a �t� prise.
-     * @param j Joueur qui a effectu� le coup
+     * Constructor of the Rafle class.
+     * Initializes a Rafle with a starting square, a capture square, and a player.
+     * @param d The starting square
+     * @param p The capture square
+     * @param j The player executing the Rafle
      */
     public Rafle(CaseNoire d, CaseNoire p,Joueur j) {
         caseDebut = d;
@@ -81,33 +40,33 @@ public class Rafle {
         casesSuivantes = new Vector<>();
         joueur = j;
     }
+
     /**
-     * Ajoute une case a la liste des cases suivantes.
-     * @param c
+     * Adds a capture to the sequence.
+     * @param c The square to be added to the sequence
      */
     public void addCasesSuivantes(CaseNoire c) {
         casesSuivantes.add(new Rafle(c,null,joueur));
     }
-    
+
     /**
-     * Ajoute une rafle a la liste des cases suivantes
-     * @param r Rafle a ajouter.
+     * Adds a Rafle to the sequence.
+     * @param r The Rafle to be added to the sequence
      */
     public void addRaflesSuivantes(Rafle r) {
         casesSuivantes.add(r);
     }
-    
+
     /**
-     * M�thode qui vide le vecteur qui contient la liste des cases suivantes.
-     *
+     * Clears the sequence of captures.
      */
     public void clearCasesSuivantes() {
         casesSuivantes.clear();
     }
     
     /**
-     * Permet d'effacer les coups obligatoires du Plateau p.
-     * @param p Instance du plateau p sur lequel on efface les <i>"cases obligatoires"</i>.
+     * Erases moves from the board.
+     * @param p The game board
      * @see Plateau#isObligatoire()
      */
     public void effaceCoups(Plateau p) {
@@ -147,67 +106,68 @@ public class Rafle {
     }
     
     /**
-     * 
-     * @return case du d�but de la rafle
+     * Gets the starting square of the Rafle.
+     * @return The starting square of the Rafle
      */
     public CaseNoire getCaseDebut() {
         return caseDebut;
     }
     
     /**
-     * Retourne la i�me case suivante.
-     * @param i i�me case suivante a retourner.
-     * @return Retourne la i�me case suivante, null sinon.
+     * Gets a square from the sequence.
+     * @param i The index of the square in the sequence
+     * @return The square at the specified index in the sequence
      */
     public CaseNoire getCasesSuivantes(int i) {
         if(i<casesSuivantes.size())
             return (casesSuivantes.get(i)).getCaseDebut();
         return null;
     }
-    
+
     /**
-     * Retourne le joueur ayant effectu� la rafle.
-     * @return Joueur ayant effectu� la rafle.
+     * Gets the player executing the Rafle.
+     * @return The player executing the Rafle
      */
     public Joueur getJoueur() {
         return joueur;
     }
+
     /**
-     * Retourne le nombre de cases suivantes
-     * @return nombre de cases suivantes
+     * Gets the number of squares in the sequence.
+     * @return The number of squares in the sequence
      */
     public int getNbCasesSuivantes() {
         return casesSuivantes.size();
     }
-    
+
     /**
-     * @return nombre de prises effectu� par cette rafle.
+     * Gets the number of captures in the Rafle.
+     * @return The number of captures in the Rafle
      */
     public int getNbPrises() {
         return nbPrises;
     }
     
     /**
-     * Retourne la piece prise lors de la rafle
-     * @return piece prise lors de la rafle
+     * Gets the piece being captured in the Rafle.
+     * @return The piece being captured in the Rafle
      */
     public Piece getPiecePrise() {
         return piecePrise;
     }
     
     /**
-     * Retourne la case noire qui a �t� prise.
-     * @return La case noire ou une pi�ce a �t� prise.
+     * Returns the captured square in the Rafle.
+     * @return The captured square in the Rafle
      */
     public CaseNoire getPrise() {
         return casePrise;
     }
     
     /**
-     * Cette m�thode recherche dans la listes des cases suivantes, la case <i>c</i>. 
-     * Si on la trouve dans la liste des cases suivantes, on renvoie la Rafle qui lui est affect�.
-     * @param c Case recherch�.
-     * @return Retourne la rafle passant par la case c.
+     * Returns the Rafle object that starts at the given square.
+     * @param c The starting square of the Rafle
+     * @return The Rafle that starts at the given square. If no such Rafle exists, returns null.
      */
     public Rafle getRaflesSuivantes(CaseNoire c) {
         for(int i=0;i<casesSuivantes.size();i++) {
@@ -217,31 +177,30 @@ public class Rafle {
         }
         return null;
     }
-    
+
     /**
-     * Retourne le i�me rafle suivante
-     * @param i i�me rafle que l'on souhaite retourner
-     * @return i�me rafle suivante
+     * Returns the Rafle object at the given index.
+     * @param i The index of the Rafle
+     * @return The Rafle at the given index
      */
     public Rafle getRaflesSuivantes(int i) {
         return casesSuivantes.elementAt(i);
     }
+
     /**
-     * 
-     * @return Vecteur contenant la liste des cases suivantes. C'est � dire la liste des
-     * cases ou le joueur peut continuer son coup.
+     * Returns a Vector of the sequence of captures.
+     * @return A Vector of Rafle objects representing the sequence of captures
      */
     public Vector<Rafle> getVector() {
         return casesSuivantes;
     }
     
     /**
-     * Permet de mettre a jour les cases <i>"obligatoires"</i> du Plateau p.
-     * @param p Instance du Plateau sur lequel on souhaite mette � jour les coups.
+     * Updates the moves on the game board.
+     * @param p The game board
      * @see Plateau#isObligatoire()
      */
     public void misAJourCoups(Plateau p) {
-        
         p.get(caseDebut).setObligatoire(true);
         if(casePrise != null)
             p.get(casePrise).setObligatoire(true);
@@ -249,18 +208,20 @@ public class Rafle {
             (casesSuivantes.elementAt(i)).misAJourCoups(p);
         }
     }
-    
+
     /**
-     * Permet de d�finir la case du d�but de la rafle.
-     * @param c CaseNoire qui va devenir la case du d�but de la rafle
+     * Sets the starting square of the Rafle.
+     * @param c The starting square
      */
     public void setCaseDebut(CaseNoire c) {
         caseDebut = c;
     }
-    
+
     /**
-     * M�thode permettant de d�finir ou la case a �t� prise.
-     * @param prise Case ou il y a un prise.
+     * Sets the captured square of the Rafle.
+     * If the input is null, the captured piece is also set to null.
+     * If not null, the captured piece is updated to the piece at the input square.
+     * @param prise The captured square
      */
     public void setCasePrise(CaseNoire prise) {
         if(prise == null)
@@ -271,42 +232,43 @@ public class Rafle {
     }
     
     /**
-     * M�thode qui permet d'attribuer un joueur a la rafle.
-     * @param j joueur auteur de la rafle.
+     * Sets the player executing the Rafle.
+     * @param j The player
      */
     public void setJoueur(Joueur j) {
         joueur = j;
     }
-    
+
     /**
-     * Permet de d�finir le nombre de prises de la rafle.
-     * @param n Nombre de prises maximales
+     * Sets the number of captures in the Rafle.
+     * @param n The number of captures
      */
     public void setNbPrises(int n) {
         nbPrises = n;
     }
-    
+
     /**
-     * M�thode qui d�finit la piece prie.
-     * @param prise piece qui est prise lors de la rafle.
+     * Sets the piece being captured in the Rafle.
+     * @param prise The piece being captured
      */
     public void setPiecePrise(Piece prise) {
         piecePrise = prise;
     }
-    
+
     /**
-     * Attribue la i�me rafle des cases suivantes
-     * @param i i�me case suivante a modifier
-     * @param coup nouvelle r�gle suivante
+     * Replaces the Rafle at the given index with the given Rafle.
+     * @param i The index of the Rafle to be replaced
+     * @param coup The Rafle to replace the existing Rafle at the given index
      */
     public void setRaflesSuivantes(int i,Rafle coup) {
         casesSuivantes.setElementAt(coup,i);
     }
     
     /**
-     * Retourn une cha�ne d�crivant la rafle
-     * @return Retourne un cha�ne de caract�re d�crivant la Rafle.
+     * Returns a string representation of the Rafle.
+     * @return A string representation of the Rafle
      */
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         if(joueur != null) {
@@ -320,7 +282,4 @@ public class Rafle {
         
         return s.append(";").toString();
     }
-    
-    
-    
 }

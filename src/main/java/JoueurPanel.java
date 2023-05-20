@@ -1,24 +1,4 @@
-/*
- *****************************************************************************
- *                         JoueurPanel.java -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                    
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
 package jeuDeDames;
-
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -31,44 +11,30 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- * JPanel contenant les boutons des joueurs
- * @author Rudy
- *
+ * This class represents the player's panel in the game. It includes several buttons for different actions, such as
+ * abandoning the game, canceling a move, proposing a draw, and displays the current time for each player.
  */
 public class JoueurPanel extends JPanel {
     
     private static int heightButton = 20;
     
     private static int widthButton = 250;
-    /**
-     * Bouton qui permet au joueur 1 d'abandonner
-     */
+
     private JButton abandon = null;
-    /**
-     * Bouton qui permet au joueur 1 d'annuler un coup.
-     */
+
     private JButton annul = null;
     
-    /**
-     * Joueur "proprietaire" de panel
-     */
     private transient Joueur joueur;
-    /**
-     * JLabel affichant le nom du joueur
-     */
+
     private JLabel nom = null;
-    /**
-     * Bouton qui permet au joueur 1 de proposer un nul.
-     */
+
     private JButton nul = null;
-    /**
-     * Label contenant le temps restant au joueur 1 pour jouer
-     */
+ 
     private JLabel temps = null;
     
     /**
-     * Constructeur par defaut
-     * @param j Joueur proprietaire du JPanel
+     * Constructs a new JoueurPanel object for a specific player.
+     * @param j Joueur: the player that this panel represents.
      */
     public JoueurPanel(Joueur j) {
         super();
@@ -79,14 +45,12 @@ public class JoueurPanel extends JPanel {
         joueur = j;
         initialise();
         joueur.setPanel(this);
-        
     }
     
     /**
-     * Methode qui retourne une chaine de caractere sous le forme minute:seconde du temps
-     * <code>t</code>.
-     * @param t temps en secondes a transforme en <code>String</code>
-     * @return une chaine de caractere de la forme minute:seconde de <code>temps</code>
+     * Converts a given time (in seconds) to a string in MM:SS format.
+     * @param t int: the time to convert, in seconds.
+     * @return String: the time as a string in MM:SS format.
      */
     public String getTempsString(int t) {
         if(t<0)
@@ -104,10 +68,8 @@ public class JoueurPanel extends JPanel {
         return minute + ":" + seconde; 
     }
     
-    
     /**
-     * Methode qui cache les boutons du panneau.
-     *
+     * Hides all buttons (abandon, draw proposal, move cancellation) on the player's panel.
      */
     public void hideButton() {
         abandon.setVisible(false);
@@ -116,8 +78,7 @@ public class JoueurPanel extends JPanel {
     }
     
     /**
-     * Methode qui initialise le panneau
-     *
+     * Initializes the player's panel by adding and setting up components such as labels and buttons.
      */
     private void initialise() {
         
@@ -159,8 +120,8 @@ public class JoueurPanel extends JPanel {
     }
     
     /**
-     * Met a jour le nom du joueur.
-     * @param b true si le joueur est actif, false sinon
+     * Updates the player's name on the panel and indicates if they are the active player.
+     * @param b boolean: true if the player is active, false otherwise.
      */
     public void setActif(boolean b) {
         if(b)
@@ -170,8 +131,8 @@ public class JoueurPanel extends JPanel {
     }
     
     /**
-     * Methode qui met a jour le label affichant le temps au temps <code>t</code>
-     * @param t temps affiche
+     * Updates the displayed timer on the player's panel.
+     * @param t int: the current time left for the player, in seconds.
      */
     public void setTimer(int t) {
         temps.setText(getTempsString(t));

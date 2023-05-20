@@ -1,61 +1,42 @@
-/*
- *****************************************************************************
- *                         Dame.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                    
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
 /**
- * Classe symbolisant la dame du Jeu de Dame.
- * @author rudy
+ * Class Dame extends Piece to represent a Queen in a game.
  */
 public class Dame extends Piece {
-    
+
     /**
-     * Constructeur prenant en argument une autre Dame. Ce constructeur
-     * permet de realiser une copie de <code>d</code>.
-     * @param d Dame a copier
-     * @param c Case sur laquelle se trouve la piece 
-     * 
+     * Constructor that takes a Queen and a black case as parameters.
+     *
+     * @param d the Queen object
+     * @param c the black case
      */
     public Dame(Dame d,CaseNoire c) {
         super(d,c);
     }
-    
+
     /**
-     * Constructeur de la classe Dame
-     * @param c Couleur de la piece.
-     * @param j Joueur qui possede la piece
-     * @param p Plateau sur lequel la piece est dispose
-     * @param pos Case (CaseNoire) sur laquelle se trouve la piece.
+     * Constructor that initializes the queen with its color, position, plateau, player, and direction.
+     *
+     * @param c the color of the queen
+     * @param pos the position of the queen
+     * @param p the plateau of the game
+     * @param j the player
      */
     public Dame(int c,CaseNoire pos,Plateau p,Joueur j) {
         super(c,pos,p,j);
         direction = 0;
     }
-    
+
     /**
-     * Retourne la premiere case vide trouvee ou peut se deplacer la dame.
-     * @return premiere case vide ou peut se deplacer la dame.
+     * Overrides the casePossible method from Piece. 
+     * Checks possible case in all four directions (up, down, left, right).
+     *
+     * @return the first possible case found or null if no case is possible
      */
+    @Override
     public Case casePossible() {
         Case c = null;
         int[] directions = {1, -1};
@@ -70,48 +51,48 @@ public class Dame extends Piece {
         }
         return null;
     }
-    
-    
+
     /**
-     * Methode qui retourne la premiere case vide dans la direction dLig,dCol
-     * @param dLig Direction d'evolution des lignes
-     * @param dCol Direction d'evolution des colonnes
-     * @return premiere case possible dans la direction dLig,dCol
+     * Private helper method for checking possible case in a given direction.
+     *
+     * @param dLig change in line (direction)
+     * @param dCol change in column (direction)
+     * @return the case if it is possible or null otherwise
      */
     private Case casePossibleDirection(int dLig, int dCol) {
         int ligne = position.getLigne();
-        int colonne = position.getColonne();
-    
+        int colonne = position.getColonne();    
         while(true) {
             ligne += dLig;
-            colonne += dCol;
-    
+            colonne += dCol;   
             if(ligne < 0 || ligne > 9 || colonne < 0 || colonne > 9 
                || plateau.get(ligne, colonne).getPiece() != null) {
                 return null;
             }
-    
             return plateau.get(ligne, colonne);
         }
     }
-    
-    
+
     /**
-     * Retourne un copie de la dame.
-     * @param c Case que l'on souhaite copier
-     * @return la copie de la dame.
+     * Overrides the copie method from Piece. 
+     * Makes a copy of this queen at the given black case.
+     *
+     * @param c the black case
+     * @return the new Queen
      */
+    @Override
     public Piece copie(CaseNoire c) {
         return new Dame(this,c);
     }
-    
+
     /**
-     * Retourne le coup obligatoire pour la dame.
-     * @param prise Case ou la piece precedent a ete prise
-     * @return le coup obligatoire pour la dame.
-     * @see Rafle
+     * Overrides the coupObligatoire method from Piece.
+     * Performs a forced capture, and returns a Rafle object.
      *
+     * @param prise the case where the capture will occur
+     * @return a Rafle object describing the forced capture
      */
+    @Override
     public Rafle coupObligatoire(CaseNoire prise) {
         
         Rafle rafle = new Rafle(position,prise,null);
@@ -408,9 +389,11 @@ public class Dame extends Piece {
     }
 
     /**
-     * Methode qui recherche si la dame peut bouger.
-     * @return true si la dame peut bouger, false sinon.
+     * This method checks if a move is possible in a given direction.
+     * It iterates over all possible directions to see if any moves are possible.
+     * @return true if a move is possible in any direction, false otherwise
      */
+    @Override
     public boolean coupPossible() {
         int[] directions = {1, -1};
         for (int dLig : directions) {
@@ -422,12 +405,13 @@ public class Dame extends Piece {
         }
         return false;
     }
-    
+
     /**
-     * Renvoit un booleen suivant si un coup est possible pour la dame dans une certaine direction.
-     * @param dLig direction d'evolution des lignes
-     * @param dCol direction d'evolution des colonnes
-     * @return true si la dame peut effectuer un coup, false sinon
+     * Checks if a move is possible in a certain direction.
+     *
+     * @param dLig change in line (direction)
+     * @param dCol change in column (direction)
+     * @return true if move is possible, false otherwise
      */
     public boolean coupPossibleDirection(int dLig, int dCol) {
         int ligne = position.getLigne();
@@ -443,11 +427,12 @@ public class Dame extends Piece {
     }
     
     /**
-     * Methode qui renvoit un boolean indiquant si le Coup <code>coup</code> est valide 
-     * pour la dame.
-     * @param coup le coup a valide
-     * @return true si la coup est bon, false sinon.
+     * This method validates the provided move.
+     * It compares the starting and ending positions and checks if the path is clear of obstacles.
+     * @param coup the move to validate
+     * @return true if the move is valid, false otherwise
      */
+    @Override
     public boolean isCoupValide(Rafle coup) {
         CaseNoire depart = coup.getCaseDebut();
         CaseNoire arrivee = coup.getCasesSuivantes(0);
@@ -477,9 +462,9 @@ public class Dame extends Piece {
     }
     
     /**
-     * Methode redefinit de la classe JPanel, permettant de personnaliser 
-     * l'affichage d'une dame, ici on dessine un cercle.
-     * @see javax.swing.JComponent#paintComponent(Graphics)
+     * Overrides the paintComponent method of the parent class. 
+     * It sets the color and fills the oval based on the color and size parameters.
+     * @param g the graphics context to use for painting
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -489,21 +474,20 @@ public class Dame extends Piece {
         g.fillOval(x-cote/2,y-cote/2,cote,cote);	
         
         g.setColor(Color.RED);
-        g.fillOval(cote/2-5,cote/2-5,10,10);
-        
+        g.fillOval(cote/2-5,cote/2-5,10,10);  
     }
-    
+
     /**
-     * Methode calculant les prise possible dans les directions dLig, dCol a partir
-     * de la case ligne,colonne. On renvoie le nombre de prises maximale que l'on peut faire.
-     * @param ligne ligne de la case du debut de la recherche
-     * @param colonne colonne de la case du debut de la recherche 
-     * @param dLig direction de recherche des lignes
-     * @param dCol direction de recherche des colonnes
-     * @param rafle Rafle dans lequel les resultats sont stockes
-     * @param nbPrises nombre de prises maximale que l'on peut faire avant l'appel a cette fonction.
-     * @param prise Case que l'on affecte a la Rafle rafle
-     * @return Nombre de prises maximales que l'on peut faire apres l'appel a cette fonction.
+     * This method checks if a capture is possible from a given position in a given direction.
+     * It verifies if the piece on the given square is of the opposite color and if the next square in the same direction is empty.
+     * @param ligne the row of the current position
+     * @param colonne the column of the current position
+     * @param dLig the row direction
+     * @param dCol the column direction
+     * @param rafle the move to check
+     * @param nbPrises the number of captures made
+     * @param prise the square of the captured piece
+     * @return the updated number of captures made
      */
     private int prisePossible(int ligne, int colonne, int dLig, int dCol,Rafle rafle, int nbPrises,CaseNoire prise) {
         
@@ -545,19 +529,23 @@ public class Dame extends Piece {
         }
         return nbPrises;
     }
-    
+
     /**
-     * Methode qui gere la promotion de la piece
+     * Overrides the promotion method of the parent class.
+     * It always returns false because Queens (Dames in French) cannot be promoted.
+     * @return false, as Queens cannot be promoted
      */
-    public void promotion() {
-        //Les dames ne peuvent etre promues
+    @Override
+    public boolean promotion() {
+        return false;
     }
     
     /**
-     * Renvoit sous forme de chaine une description de la dame. La chaine est de la forme
-     * "<code>D:ligne,colonne</code>".
-     * @return chaine decrivant la dame. 
-     */ 
+     * Overrides the toString method of the parent class. 
+     * It returns a string that represents the piece.
+     * @return a string that represents the piece
+     */
+    @Override
     public String toString() {
         return "D("+couleur+"):" + position.toString();
     }

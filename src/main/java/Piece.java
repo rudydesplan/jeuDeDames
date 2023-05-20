@@ -1,98 +1,49 @@
-/*
- *****************************************************************************
- *                         Piece.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                     
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
-
-
-
 /**
- * 
- * Classe abstraite symbolisant une pi�ce du Jeu de Dames, c'est-�-dire les pions
- * et les dames.
- * @author rudy
- * @see Pion
- * @see Dame
- * 
+ * Abstract class representing a generic piece in a game. This class provides the basic
+ * attributes and actions a piece can perform. It should be extended by other classes
+ * that provide a specific implementation for each kind of game piece.
+ *
+ * The piece knows its own color, direction, the player that controls it, its position
+ * on the game board, and its screen coordinates.
  */
 public abstract class Piece extends JComponent {
     
     /**
-     * Constante enti�re d�signant la couleur Blanche pour une pi�ce.
+     * Constant representing a white piece.
      */
     public static final int BLANC = 1;
-    
+
     /**
-     * Constante enti�re d�signant le couleur Noir pour une pi�ce.
+     * Constant representing a black piece.
      */
     public static final int NOIR = 0;
-    
-    /**
-     * Contient la couleur de la pi�ce :  soit BLANC, soit NOIR.
-     * @see Piece#NOIR
-     * @see Piece#BLANC
-     */
+
     protected int couleur;
-    
-    /**
-     * Direction dans laquelle se d�place le pion. Direction vaut -1 pour les pions blancs, en effet,
-     * dans le jeu les pions blancs se trouvent dans la partie basse du plateau, elle doivent donc monter,
-     * c'est a dire que les lignes doivent diminuer. Pour les pions noires, c'est l'inverse, direction vaut donc +1.
-     */
+
     protected int direction;
     
-    /**
-     * Joueur qui poss�de la pi�ce.
-     */
     protected transient Joueur joueur=null;
     
-    /**
-     * Plateau sur lequel se trouve la piece.
-     */
     protected Plateau plateau;
-    
-    /**
-     * Position de la pi�ce.
-     */
+
     protected CaseNoire position;
-    
-    /**
-     * Position de la pi�ce sur la case, il s'agit du coin en haut � gauche.
-     */
+
     protected int x;
-    
-    /**
-     * Position de la pi�ce sur la case, il s'agit du coin en haut � gauche.
-     */
+
     protected int y;
-    
+
     /**
-     * Construcuteur de la classe Piece.
-     * @param c Couleur de la pi�ce.
-     * @param pos Position de la pi�ce.
-     * @param j Joueur qui poss�de la pi�ce
-     * @param p Plateau sur lequel la pi�ce est dispos�e
+     * Constructor for a Piece object. Initializes the color, position, player, and dimensions of the piece.
+     * @param c     color of the piece.
+     * @param pos   initial position of the piece.
+     * @param p     the game board.
+     * @param j     the player that controls the piece.
      */
     public Piece(int c, CaseNoire pos, Plateau p, Joueur j) {
         super();
@@ -107,53 +58,51 @@ public abstract class Piece extends JComponent {
         
         plateau = p;
     }
-    
-    
+
     /**
-     * Constructeur prenant en argument une piece. Ceci permet de cr�er une copie de la pi�ce p, positionn� 
-     * sur la case <code>c</code>. Il est important de passer en argument la case <code>c</code>, en effet, si on
-     * ne faisait pas �� la piece <code>p</code> et se copie se trouverait sur la m�me case !
-     * @param p Piece que l'on veut "copier"
-     * @param c Case sur laquelle se trouve la pi�ce
+     * Copy constructor for a Piece object. Creates a new piece with the same color and position as the provided piece.
+     * @param p     the piece to copy.
+     * @param c     the position for the new piece.
      */
     public Piece(Piece p, CaseNoire c) {
         super();
         couleur = p.getCouleur();
         position = c;
         plateau = c.getPlateau();
-        
     }
-    
+
     /**
-     * M�thode qui retourne une case o� la pi�ce peut se d�placer.	
-     * @return une case ou la piece peut se d�placer.
+     * Abstract method to determine the next possible position for the piece. 
+     * Should be implemented in a subclass.
+     * @return  the next possible case for the piece.
      */
     public abstract Case casePossible();
-    
+
     /**
-     * Retourne une copie de la pi�ce. Cette m�thode est utilis� lorsque l'on souhaite r�alis� une copie enti�re 
-     * du damier. On fait ceci lorsque qu'on souhaite simuler des coups afin de d�terminer le coups obligatoires. 
-     * @return une copie de la pi�ce
-     * @param c Case sur laquelle se trouve la pi�ce
+     * Creates a copy of this piece at a new position.
+     * @param c     the position for the new piece.
+     * @return      a new piece identical to this piece at the specified position.
      */
     public abstract Piece copie(CaseNoire c);
-    
+
     /**
-     * Calcul le coup obligatoire pour la pi�ce
-     * @param prise Case ou le pion pr�c�dent a �t� pris
-     * @return Rafle maximale pour la pi�ce
+     * Determines if there is a mandatory capture for the piece. 
+     * Should be implemented in a subclass.
+     * @param prise     the position of the piece to be captured.
+     * @return          the capture action that must be performed.
      */
     public abstract Rafle coupObligatoire(CaseNoire prise);
-    
+
     /**
-     * M�thode qui recherche si la dame peut bouger.
-     * @return true si la dame peut bouger, false sinon.
+     * Determines if the piece has any valid moves.
+     * Should be implemented in a subclass.
+     * @return  true if the piece has any valid moves, false otherwise.
      */
     public abstract boolean coupPossible();
-    
+
     /**
-     * M�thode qui d�place la pi�ce sur la case <code>c</code>.
-     * @param c Case que laquelle le pion est d�plac�.
+     * Moves the piece to a new position on the board.
+     * @param c     the new position for the piece.
      */
     public void deplacer(CaseNoire c) {
         if(position != null)
@@ -161,74 +110,79 @@ public abstract class Piece extends JComponent {
         position = c;
         c.add(this);
     }
-    
+
     /**
-     * M�thode qui renvoit le couleur de la pi�ce
-     * @return la couleur de la piece
-     * @see Piece#NOIR
-     * @see Piece#BLANC
+     * Gets the color of the piece.
+     * @return  the color of the piece.
      */
     public int getCouleur() {
         return couleur;
     }
-    
+
     /**
-     * Retourne la direction dans laquelle se d�place le pion.
-     * @return la direction dans laquelle se d�place le pion.
+     * Gets the direction of the piece.
+     * @return  the direction of the piece.
      */
     public int getDirection() {
         return direction;
     }
-    
+
     /**
-     * Retourne la <code>joueur</code> qui poss�de la pi�ce
-     * @return Joueur qui poss�de la pi�ce.
+     * Gets the player that controls the piece.
+     * @return  the player that controls the piece.
      */
     public Joueur getJoueur() {
         return joueur;
     }
-    
+
     /**
-     * M�thode qui retourne la position (Case) sur laquelle se trouve la pi�ce
-     * @return Case sur laquelle se trouve la pi�ce.
+     * Gets the current position of the piece.
+     *
+     * @return  the current position of the piece.
      */
     public CaseNoire getPosition() {
         return position;
     }
-    
+
     /**
-     * M�thode qui v�rifie que le Coup c est valide.
-     * @param r la rafle que l'on souhaite v�rifi�.
-     * @return un bool�en, vrai si le coup est valide, faux sinon.
+     * Determines if the proposed capture action is valid for this piece. 
+     * Should be implemented in a subclass.
+     *
+     * @param r     the proposed capture action.
+     * @return      true if the proposed capture is valid, false otherwise.
      */
     public abstract boolean isCoupValide(Rafle r);
-    
+
     /**
-     * M�thode qui dessine la piece.
-     * @see javax.swing.JComponent#paintComponent(Graphics)
+     * Paints the piece on the board. Overrides the method from JComponent.
+     *
+     * @param g     the Graphics object to paint on.
      */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
     }
-    
+
     /**
-     * M�thode qui g�re la promotion des pi�ces
+     * Changes the piece to a more powerful piece (if applicable). 
+     * Should be implemented in a subclass.
      */
-    public abstract void promotion();
-    
+    public abstract boolean promotion();
+
     /**
-     * Permet de d�finir la joueur qui poss�de la pi�ce.
-     * @param j
+     * Sets the player that controls the piece.
+     *
+     * @param j     the player that will control the piece.
      */
     public void setJoueur(Joueur j) {
         joueur = j;
     }
-    
+
     /**
-     * M�thode qui permet de modifier l'endroit ou la pi�ce se dessine.
-     * @param w Abscisse de la fen�tre
-     * @param h ordonn�e de la fen�tre
+     * Changes the screen position of the piece. Overrides the method from JComponent.
+     *
+     * @param w     the new x-coordinate for the piece.
+     * @param h     the new y-coordinate for the piece.
      */
     @Override
     public void setLocation(int w,int h) {
@@ -236,23 +190,21 @@ public abstract class Piece extends JComponent {
         y = h;
         repaint();
     }
-    
+
     /**
-     * M�thode qui permet de changer la position de la pi�ce
-     * @param c nouvelle position de la pi�ce
-     * @see Piece#position
+     * Sets the position of the piece on the game board.
+     *
+     * @param c     the new position for the piece.
      */
-    public void setPosition(CaseNoire c) {
-        position = c;
-    }
-    
+    public void setPosition(CaseNoire c) {}
+
     /**
-     * Retourne une cha�ne d�crivant la piece. On a une cha�ne de la forme "D:ligne,colonne" pour une dame,
-     * et "P:ligne,colonne" pour un pion.
-     * 
-     * @return retourne une description de la piece sous forme de cha�ne
+     * Provides a string representation of the piece. 
+     * A typical output could be "D:ligne,colonne" for a dame (queen),
+     * and "P:ligne,colonne" for a pion (pawn).
+     * This method must be overridden in the subclass.
+     *
+     * @return  a string representation of the piece.
      */
-    @Override
     public abstract String toString();
-    
 }

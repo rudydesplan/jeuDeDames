@@ -1,51 +1,32 @@
-/*
- *****************************************************************************
- *                         Pion.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                   
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 import java.awt.Color;
 import java.awt.Graphics;
 
 /**
- * Classe symbolisant un pion du jeu de dames.
- * @author rudy
+ * The Pion class extends the Piece class and represents a pawn in a game of checkers. 
+ * This class handles the pawn's movements, captures, and promotions.
  */
 public class Pion extends Piece{
-    
+
     /**
-     * Constructeur de la classe Pion
-     * @param c Couleur de la pi ce
-     * @param pos Case (CaseNoire) sur laquelle se trouve la pi ce.
-     * @param j Joueur qui poss de la pi ce
-     * @param p Plateau sur lequel la pi ce se trouve
+     * Primary constructor for the Pion class. 
+     * Establishes the color, position, direction, and associated player of the pawn.
+     * @param c Color of the pawn
+     * @param pos Position of the pawn
+     * @param p The game board
+     * @param j The player owning the pawn
      */
     public Pion(int c, CaseNoire pos,Plateau p,Joueur j) {
         super(c,pos,p,j);
         if(c == BLANC) direction = -1;
         else direction =1;
-        
     }
     
     /**
-     * Constructeur r alisant une copie du Pion p
-     * @param p Pion que l'on d sire copier.
-     * @param c Case ou se trouve la pi ce
+     * Copy constructor for the Pion class. 
+     * Creates a new Pion object identical to the provided Pion, but on a new case.
+     * @param p The pawn to be copied
+     * @param c The new case for the pawn
      */
     public Pion(Pion p, CaseNoire c) {
         super(p,c);
@@ -53,9 +34,10 @@ public class Pion extends Piece{
     }
     
     /**
-     * Retourne la premi re case vide ou peut se d placer le pion.
-     * @return premi re case possible ou le pion peut se d placer.
+     * Calculates the possible cases for this pawn to move to.
+     * @return  the Case that this pawn can move to. If there are no possible moves, returns null.
      */
+    @Override
     public Case casePossible() {
         Case c = null;
         Case possibleCase = null;
@@ -65,32 +47,27 @@ public class Pion extends Piece{
         } else if ((c = plateau.get(position.getLigne() + direction, position.getColonne() - 1)) != null && c.getPiece() == null) {
             possibleCase = c;
         }
-    
         return possibleCase;
     }
     
-    
     /**
-     * Retourne un copie du pion
-     * @return la copie de la pi ce
-     * @param c Case o  se trouve la pi ce
+     * Creates a copy of this pawn on a new case.
+     * @param c The case where the copied pawn will be placed
+     * @return  a new Pion object on the provided CaseNoire.
      */
+    @Override
     public Piece copie(CaseNoire c) {
         return new Pion(this,c);
     }
-    
+
     /**
-     * Calcul et retourne le coup obligatoire pour le pion.
-     * @param prise la case ou le pion pr c dent est pris
-     * @return le coup obligatoire pour le pion
+     * Determines whether there is a compulsory capture for this pawn.
+     * @param prise The case of the potential capture
+     * @return  the Rafle object representing the compulsory capture. If there is no compulsory capture, returns null.
      */
+    @Override
     public Rafle coupObligatoire(CaseNoire prise) {
-        
-        /*
-         * On recherche dans les quatre directions s'il y a des
-         * prises possibles. on stocke le r sultat dans rafle.
-         * 
-         */
+
         int lig = position.getLigne();
         int col = position.getColonne();
 
@@ -117,36 +94,31 @@ public class Pion extends Piece{
     }
     
     /**
-     * M thode qui recherche si la pion peut bouger.
-     * @return true si la pion peut bouger, false sinon.
+     * Checks whether this pawn can make a move.
+     * @return  true if the pawn can make a move, false otherwise.
      */
+    @Override
     public boolean coupPossible() {
         Case c = null;
         return ((c = plateau.get(position.getLigne() + direction, position.getColonne() + 1)) != null && c.getPiece() == null) ||
                ((c = plateau.get(position.getLigne() + direction, position.getColonne() - 1)) != null && c.getPiece() == null);
     }
-    
-    
-    
+
     /**
-     * <p>Cette m thode calcul le coup obligatoire pour le pion dans la direction <code>dLig</code>
-     * ,<code>dCol</code>. Le r sultat est stock  dans <code>rafle</code>. On retourne le nombre 
-     * de prises maximales que l'on peut faire avec le pion.</p>
-     * 
-     * @param lig Ligne de la pi ce o  l'on souhaite effectu e la recherche.
-     * @param col Colonne de la pi ce o  l'on souhaite effectu e la recherche.
-     * @param dLig Direction ligne de recherche.
-     * @param dCol Direction colonne de recherche.
-     * @param rafle Rafle obligatoire. 
-     * @param nbPrises Nombre de prises obligatoire avant le calcul.
-     * @return Nombres de prises maximales que l'on peut faire apr s le calcul.
+     * Checks if there are possible captures for this pawn from a specific position on the game board.
+     *
+     * @param lig Initial row coordinate.
+     * @param col Initial column coordinate.
+     * @param dLig Row direction.
+     * @param dCol Column direction.
+     * @param rafle The Rafle object to track the captures.
+     * @param nbPrises The current number of captures.
+     * @return The updated number of captures.
      */
-    private int coupPossible(int lig, int col,int dLig, int dCol,Rafle rafle, int nbPrises) {
-        
+    private int coupPossible(int lig, int col,int dLig, int dCol,Rafle rafle, int nbPrises) {     
         Case c = null;
         Case c2 = null;
         Piece piece = null;
-        
         
         if((c = plateau.get(lig+dLig,col+dCol)) != null && 
            (piece = c.getPiece()) != null &&
@@ -170,16 +142,14 @@ public class Pion extends Piece{
                     rafle.addRaflesSuivantes(r);  
                 }
             }
-            
         }
         return nbPrises;
     }
-    
+
     /**
-     * Retourne la direction de d placement du pion.
-     * @return Renvoit la direction de la piece.
+     * Returns the direction of this pawn.
+     * @return  the integer representing the direction of this pawn.
      * @see Pion#direction
-     * 
      */
     @Override
     public int getDirection() {
@@ -187,10 +157,11 @@ public class Pion extends Piece{
     }
     
     /**
-     * M thode validant un coup.
-     * @param coup Coup a valider
-     * @return true si le coup est valide, false sinon
+     * Checks if a given move (Rafle) is valid.
+     * @param coup The move to be validated.
+     * @return true if the move is valid, false otherwise.
      */
+    @Override
     public boolean isCoupValide(Rafle coup) {
         CaseNoire depart = coup.getCaseDebut();
         CaseNoire arrivee = coup.getCasesSuivantes(0);
@@ -202,8 +173,9 @@ public class Pion extends Piece{
     }
     
     /**
-     * M thode red finit de la classe JLabel, permettant de personnaliser 
-     * l'affichage d'un pion, ici on dessine un cercle.
+     * Paints this pawn on the game board.
+     *
+     * @param g The Graphics object for rendering the pawn.
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
     @Override
@@ -215,19 +187,24 @@ public class Pion extends Piece{
     }
     
     /**
-     * M thode qui g re la promotion du pion.
+     * Promotes this pawn if it has reached the end of the game board.
      */
-    public void promotion() {
-        if(position.getLigne() == (couleur-1)*(-9) )
+    @Override
+    public boolean promotion() {
+        boolean bResult =false;
+        if (position.getLigne() == (couleur - 1) * (-9)) {
             joueur.promotion(this);
+            bResult = true;
+        }
+        return bResult;
     }
     
     /**
-     * Renvoit un cha ne de la forme "P:ligne,colonne" pour d crire la position du pion.
-     * @return retourne une description de la piece sous forme de cha ne
+     * Returns a string representation of this pawn.
+     * @return The string representation of this pawn.
      */
+    @Override
     public String toString() {
         return "P("+couleur+"):" + position.toString();
-    }
-    
+    } 
 }

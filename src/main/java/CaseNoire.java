@@ -1,23 +1,3 @@
-/*
- *****************************************************************************
- *                         CaseNoire.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                  
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.awt.Color;
@@ -26,27 +6,26 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-
 /**
- * Classe d crivant un case noire du Jeu de Dames. Cette case est active, contrairement aux
- * cases blanches.
- * 
- * @author rudy
+ * Represents a black square (case) on the game board in a game of Checkers (Jeu de Dames). 
+ * Extends the abstract Case class and implements the MouseListener interface.
+ * In Checkers, pieces can only move on black squares, so these squares can contain pieces and handle mouse events.
  */
 public class CaseNoire extends Case implements MouseListener {
     
     /**
-     * Variable priv  contenant la pi ce positionn  sur la case. Elle vaut <b>null</b> si la case
-     * est vide
+     * The piece that is currently on the square. 
+     * Null if there is no piece.
      */
     private Piece piece;
     
     /**
-     * Constructeur prenant en argument une CaseNoire, on r alise une copie de la case.
-     * @param c CaseNoire que l'on souhaite "copier"
-     * @param p Plateau sur lequel se trouve la case
+     * Copy constructor. Creates a new black square as a copy of the provided one.
+     * If the copied square has a piece, the new square also gets a copy of the piece.
+     *
+     * @param c the CaseNoire object to be copied
+     * @param p the Plateau object representing the game board
      * @see Case#Case(Case, Plateau)
-     * 
      */
     public CaseNoire(CaseNoire c,Plateau p) {
         super(c,p);
@@ -57,10 +36,12 @@ public class CaseNoire extends Case implements MouseListener {
     }
     
     /**
-     * Constructeur de base d'une CaseNoire.
-     * @param c colonne de la case.
-     * @param l ligne de la case.
-     * @param p Plateau sur lequel se trouve la case
+     * Parameterized constructor. Creates a new black square at the specified position.
+     * Initially, there is no piece on the square.
+     *
+     * @param l the row of the square on the game board
+     * @param c the column of the square on the game board
+     * @param p the Plateau object representing the game board
      */
     public CaseNoire(int c, int l,Plateau p) {
         super(c,l,p);
@@ -68,13 +49,12 @@ public class CaseNoire extends Case implements MouseListener {
         addMouseListener(this);
     }
     
-    
     /**
-     * M thode qui permet d'ajouter un pi ce   une case.
-     * Il s'agit de la m thode add de la classe JLabel red finit
-     * pour s'adapter au case des pi ces du jeu de dames.
-     * @param comp Le component ajout 
-     * @return retourne le comp ajout 
+     * Adds a Component (specifically a Piece) to the square.
+     * Also updates the position and dimensions of the piece on the square.
+     *
+     * @param comp the Component (Piece) to be added
+     * @return the Component (Piece) that was added
      */
     public Component add(Component comp) {
         piece = (Piece) comp;
@@ -83,15 +63,15 @@ public class CaseNoire extends Case implements MouseListener {
             piece.setLocation(Case.TAILLE/2-5,Case.TAILLE/2-5);
             piece.setBounds(5,5,Case.TAILLE,Case.TAILLE);
         }
-        
-        
-        return comp;
-        
+        return comp;  
     }
     
     /**
-     * Retourne un copie de la case.
-     * @return la copie de la case.
+     * Creates a copy of this black square on the provided game board.
+     * If this square has a piece, the copy will also get a copy of the piece.
+     *
+     * @param p the Plateau object representing the game board
+     * @return the copy of this CaseNoire object
      * @see Case#copie(Plateau)
      */
     public Case copie(Plateau p) {
@@ -99,17 +79,20 @@ public class CaseNoire extends Case implements MouseListener {
     }
     
     /**
-     * Retourne la pi ce qui est sur la case. Null s'il n'y a pas de piece
-     * sur la case.
-     * 
-     * @return Piece se situant sur la case. Null s'il n'y a pas de piece.
+     * Returns the piece that is currently on the square.
+     *
+     * @return the Piece object on the square, null if there is no piece
      */
     public Piece getPiece() {
         return piece;
     }
-    
+
     /**
-     * M thode apell  lorsque le joueur clique sur la case.
+     * Handles the mouseClicked event. 
+     * Depending on whether there is a piece on the square and whether a piece has been selected, 
+     * it executes various game logic like moving a piece or selecting/deselecting a piece.
+     *
+     * @param e the MouseEvent object
      * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
      */
     public void mouseClicked(MouseEvent e) {
@@ -170,13 +153,14 @@ public class CaseNoire extends Case implements MouseListener {
         }
     }
     
-    
     /**
-     * M thode appel e lorsque la souris entre sur une case. Cette m thode g re la mis en surbrillance de la case.
+     * Handles the mouseEntered event. If a piece has been selected, it can highlight the square 
+     * if a potential move is valid.
+     *
+     * @param e the MouseEvent object
      * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
      * @see Case#select
      */
-    
     public void mouseEntered(MouseEvent e) {
         //Si le joueur a s lectionn e une piece
         
@@ -204,7 +188,9 @@ public class CaseNoire extends Case implements MouseListener {
     }
     
     /**
-     * M thode appel e lorsque la souris sort sur une case. Cette m thode g re la surbrillance de la case.
+     * Handles the mouseExited event. If the square was highlighted, it removes the highlight.
+     *
+     * @param e the MouseEvent object
      * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
      * @see Case#select
      */
@@ -213,39 +199,37 @@ public class CaseNoire extends Case implements MouseListener {
         if(select) {
             select=false;
             repaint();
-        }
-        
+        } 
     }
     
-    /*
-     * Gestion de la souris (non-Javadoc)
-     * 
-     */
-    
     /**
-     * Gestion de la souris
+     * Handles the mousePressed event. In this implementation, this method does nothing.
+     *
+     * @param e the MouseEvent object
      * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
      */
-    public void mousePressed(MouseEvent e) {
-        //On ne gere pas cet  venement        
+    public void mousePressed(MouseEvent e) {      
     }
-    
+
     /**
-     * Gestion de la souris
+     * Handles the mouseReleased event. In this implementation, this method does nothing.
+     *
+     * @param e the MouseEvent object
      * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
      */
     public void mouseReleased(MouseEvent e) {
-        //On ne gere pas cet  venement
     }
     
     /**
-     * M thode red finit de la classe JPanel, permettant de personnaliser 
-     * l'affichage d'une case noire, ici on dessine un carre de c t  TAILLE
+     * Paints the component. Colors the square depending on its current state 
+     * (normal, highlighted, or mandatory).
+     *
+     * @param g the Graphics object
      * @see Case#TAILLE
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
     public void paintComponent(Graphics g) {
-        // Si la case est en surbrillance on dessine un petit carr  cyan
+        // Si la case est en surbrillance on dessine un petit carre cyan
         if(select)  {
             g.setColor(Color.CYAN);
             g.fillRect(0,0,Case.TAILLE,Case.TAILLE);
@@ -260,19 +244,16 @@ public class CaseNoire extends Case implements MouseListener {
                 g.setColor(Color.BLACK);
                 g.fillRect(5,5,Case.TAILLE-10,Case.TAILLE-10);
             }
-            //			 Sinon on dessin un carr  noir
+            //			 Sinon on dessin un carre  noir
             else {
                 g.setColor(Color.BLACK);
                 g.fillRect(0,0,Case.TAILLE,Case.TAILLE);
             }
-            
-            
-            
         }
     }
-    
+
     /**
-     * Supprime la piece se situant sur la case.
+     * Removes the piece that is currently on the square.
      */
     public void remove() {
         if(piece!=null) {
@@ -282,10 +263,9 @@ public class CaseNoire extends Case implements MouseListener {
     }
     
     /**
-     * Permet de rendre la case "obligatoire". Une case est qualifi  d'obligatoire si elle fait
-     * partie d'un coup obligatoire.
-     * 
-     * @param b bool en permettant d'indiquer si la case est ou n'est pas une case "obligatoire"
+     * Sets whether the square is mandatory or not. If the state changes, it triggers a repaint.
+     *
+     * @param b true if the square is mandatory, false otherwise
      * @see Arbitre#calculCoupObligatoire()
      */
     public void setObligatoire(boolean b) {
@@ -294,14 +274,13 @@ public class CaseNoire extends Case implements MouseListener {
     }
     
     /**
-     * Met la case en surbrillance.
-     * @param b true si la case est s lectionn e, false sinon
+     * Sets whether the square is selected or not. If the state changes, it triggers a repaint.
+     *
+     * @param b true if the square is selected, false otherwise
      * @see CaseNoire#select
-     * 
      */
     public void setSelect(boolean b) {
         select = b;
         repaint();
     }
-    
 }

@@ -1,22 +1,3 @@
-/*
- *****************************************************************************
- *                         Arbitre.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
 package jeuDeDames;
 
 import java.awt.Color;
@@ -25,19 +6,33 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+
 /**
- * Classe qui definit la fenetre A Propos. On y affiche quelques informations relatives au projet.
+ * APropos is a custom dialog window that shows information about the "Jeu De Dames" game.
+ * 
+ * The information includes:
+ * - The title of the game
+ * - The creator of the game
+ * - The university at which it was developed
+ * - The date it was created
+ * - The project leader
+ * - The version of the game
+ * - Licensing details under the GNU General Public License
+ * 
+ * APropos also contains a "OK" button that, when clicked, disposes the window.
+ * 
+ * The window is displayed in the center of the parent window and its size is not resizable.
+ * 
+ * This class is part of the jeuDeDames package.
+ * 
  * @author rudy
- *
+ * @version 1.0
+ * @since 2023-05-19
  */
 public class APropos extends JDialog {
-    /**
-     * Hauteur de la fenetre
-     */
-    private int height = 375;
+  
     
     private JButton jButton = null;
-    
     private javax.swing.JPanel jContentPane = null;
     private JLabel jLabel = null;
     private JLabel jLabel1 = null;
@@ -50,29 +45,29 @@ public class APropos extends JDialog {
     private JLabel jLabel7 = null;
     private JLabel jLabel8 = null;
     private JLabel jLabel9 = null;
-    /**
-     * Fenetre parente
-     */
+
     private JeuDeDamesWindow parent;
-    /**
-     * Largeur de la fenetre
-     */
+
+    private int height = 375;
     private int width = 400;
     
     /**
-     * This is the default constructor
-     * @param fenetre Fenetre parente
+     * A constructor for the APropos class. This constructor initializes the dialog box with details about the game.
+     *
+     * @param fenetre The parent window (i.e., the main game window).
      */
     public APropos(JeuDeDamesWindow fenetre) {
         super();
         parent = fenetre;
         initialize();
     }
+
     /**
-     * This method initializes jButton	
-     * 	
-     * @return javax.swing.JButton	
-     */    
+     * This method creates and returns a JButton with the label "OK". If clicked, it disposes of the current dialog.
+     * The button is centered vertically with the text positioned at the top. 
+     *
+     * @return The JButton to be added to the dialog.
+     */
     private JButton getJButton() {
         if (jButton == null) {
             jButton = new JButton();
@@ -86,10 +81,13 @@ public class APropos extends JDialog {
         }
         return jButton;
     }
+
     /**
-     * This method initializes jContentPane
-     * 
-     * @return javax.swing.JPanel
+     * This method creates and returns a JPanel containing several JLabels with information about the game, 
+     * along with an "OK" button. If this JPanel has not been initialized, it will do so by adding all the JLabels 
+     * and the JButton. The background of the JPanel is orange.
+     *
+     * @return The JPanel to be set as the content pane of the dialog.
      */
     private javax.swing.JPanel getJContentPane() {
         if(jContentPane == null) {
@@ -162,10 +160,12 @@ public class APropos extends JDialog {
         }
         return jContentPane;
     }
+
     /**
-     * This method initializes this
-     * 
-     * 
+     * This method initializes the dialog box. It sets the title, size, location, and whether the dialog is resizable. 
+     * It also sets the default close operation to DISPOSE_ON_CLOSE, which means the dialog is disposed of when 
+     * the user closes it. After setting up these parameters, it makes the dialog visible and sets the content pane 
+     * to be the JPanel returned by getJContentPane().
      */
     private void initialize() {
         this.setTitle("A Propos");

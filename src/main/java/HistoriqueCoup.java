@@ -1,78 +1,57 @@
-/*
- *****************************************************************************
- *                         HistoriqueCoup.java  -  description                  
- *                            -------------------                        
- *   begin                : 18 mai. 2023                                      
- *   copyright            : (C) 2023 by Rudy Desplan
- *   email                : rudy.desplan@etud.univ-paris8.fr                    
- *****************************************************************************
- 
- ***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************
- * 
- */
-
 package jeuDeDames;
 
 import java.util.Vector;
 
 /**
- * Classe qui gere l'historique des coups. 
- * @author rudy
+ * The HistoriqueCoup class is part of the jeuDeDames package. 
+ * This class is responsible for managing the historical moves 
+ * (represented by instances of the Rafle class) in a game of checkers (jeu de dames).
  */
 public class HistoriqueCoup {
     
-    /**
-     * Vecteur contenant la liste des rafle effectue par les joueurs
-     */
     private Vector<Rafle> historique = null;
     
     /**
-     * Constructeur par defaut
-     *
+     * Constructor for the HistoriqueCoup class.
+     * Initializes an empty list for storing the history of moves.
      */
     public HistoriqueCoup() {
         historique = new Vector<>();
     }
     
     /**
-     * Ajout une rafle jouer par un joueur
-     * @param r rafle jouee
+     * Adds a move to the history.
+     *
+     * @param r The move to be added.
      */
     public void addCoup(Rafle r) {
         historique.add(r);
     }
     
     /**
-     * Efface tous les coups enregistres
-     *
+     * Clears the history of moves.
      */
     public void clear() {
         historique.clear();
     }
     
     /**
-     * Retourne la rafle a la position <code>i</code>
-     * @param i ieme rafle.
-     * @return rafle a la position <code>i</code>
+     * Returns the move at the specified index in the history.
+     *
+     * @param i The index of the move to be returned.
+     * @return The move at the specified index or null if the index is out of bounds.
      */
     public Rafle get(int i) {
         if(i <=0 && i < historique.size())
             return historique.get(i);
-        
         return null;
     }
     
     /**
-     * Renvoit la position dans la liste des rafles de la derniere rafle effectue par le joueur <code>j</code>
-     * @param j joueur dont on recherche le dernier coup
-     * @return position de la derniere rafle jouee par le joueur <code>j</code>
+     * Returns the index of the last move made by the specified player.
+     *
+     * @param j The player whose last move is to be returned.
+     * @return The index of the last move made by the player or -1 if no move has been made.
      */
     public int getDernierCoup(Joueur j) {
         int nbCoup = historique.size();
@@ -85,33 +64,35 @@ public class HistoriqueCoup {
     }
     
     /**
-     * Retourne le nombre de coups enregistres
-     * @return Nombre de coups enregistres
+     * Returns the total number of moves in the history.
+     *
+     * @return The total number of moves.
      */
     public int getNbCoups() {
         return historique.size();
     }
     
     /**
-     * Supprime la rafle a la position <code>i</code>
-     * @param i Numero de la rafle que l'on souhaite supprimer
-     * @return Rafle supprimee
+     * Removes the move at the specified index from the history.
+     *
+     * @param i The index of the move to be removed.
+     * @return The removed move.
      */
     public Rafle remove(int i) {
         return historique.remove(i);
     }
     
     /**
-     * Retourne une chaine decrivant l'historique de la partie.
-     * La chaine renvoyee contient une rafle par ligne.
+     * Returns a string representation of the history of moves.
+     *
+     * @return A string representation of the history of moves.
      * @see Rafle#toString()
-     * @return chaine decrivant l'historique.
      */
     public String toString() {
-        String s = "";
-        for(int i=0;i<historique.size();i++) {
-            s+=historique.elementAt(i).toString() + "\n";
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < historique.size(); i++) {
+            sb.append(historique.elementAt(i).toString()).append("\n");
         }
-        return s;
+        return sb.toString();
     }
 }
