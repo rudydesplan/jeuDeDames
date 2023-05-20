@@ -22,9 +22,9 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Generate Javadoc
-      run: |
-        javadoc -d javadoc -sourcepath src/main/java -subpackages jeuDeDames
+    #- name: Generate Javadoc
+      #run: |
+        #javadoc -d javadoc -sourcepath src/main/java -subpackages jeuDeDames
 
     - name: Upload JAR
       uses: actions/upload-artifact@v3
@@ -32,8 +32,8 @@ jobs:
         name: my-artifact
         path: target/*.jar
 
-    - name: Upload Javadoc
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-javadoc
-        path: javadoc/
+    #- name: Upload Javadoc
+      #uses: actions/upload-artifact@v3
+      #with:
+        #name: my-javadoc
+        #path: javadoc/
