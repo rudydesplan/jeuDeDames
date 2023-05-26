@@ -230,4 +230,9 @@ public abstract class Piece extends JComponent {
      * @return  a string representation of the piece.
      */
     public abstract String toString();
+
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
 }

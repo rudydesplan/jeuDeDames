@@ -280,7 +280,7 @@ public class Plateau extends JComponent {
     public void setActif(boolean b) {
         actif = b;
     }
-    
+
     /**
      * Method to set the Arbitre object for the game board.
      * @param a Arbitre: The Arbitre object to set for the game board.
@@ -307,5 +307,23 @@ public class Plateau extends JComponent {
             }
         }
         repaint();
+    }
+
+    /**
+     * Sets a specific case on the game board. 
+     * This method is used to set a case of type CaseNoire at a specific position on the game board.
+     * @param caseNoire CaseNoire: The case that needs to be set at the specified position on the board.
+     * This parameter represents the new case that will be set on the board. It contains its own coordinates.
+     * @throws IllegalArgumentException if the coordinates in the provided CaseNoire object are out of bounds 
+     * for the game board (i.e., if either coordinate is less than 0 or greater than or equal to 10).
+     */
+    public void setCase(CaseNoire caseNoire) {
+        int i = caseNoire.getLigne();
+        int j = caseNoire.getColonne();
+        if(i >= 0 && i < 10 && j >= 0 && j < 10) {
+            plateau[i][j] = caseNoire;
+        } else {
+            throw new IllegalArgumentException("Invalid board position");
+        }
     }
 }

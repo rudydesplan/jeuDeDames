@@ -208,6 +208,14 @@ public abstract class Joueur {
     }
 
     /**
+     * Returns the pieces controlled by the player.
+     * @return the pieces controlled by the player
+     */
+    public Vector<Piece> getPieces() {
+        return pieces;
+    }
+
+    /**
      * Returns the remaining time for the player.
      * @return the remaining time for the player
      */
@@ -364,4 +372,9 @@ public abstract class Joueur {
         if(tempsRestant<=0) 
             plateau.getArbitre().finTemps();
     }
+
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
 }

@@ -42,7 +42,7 @@ public class HistoriqueCoup {
      * @return The move at the specified index or null if the index is out of bounds.
      */
     public Rafle get(int i) {
-        if(i <=0 && i < historique.size())
+        if(i >=0 && i < historique.size())
             return historique.get(i);
         return null;
     }

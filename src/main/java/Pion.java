@@ -205,6 +205,7 @@ public class Pion extends Piece{
      */
     @Override
     public String toString() {
-        return "P("+couleur+"):" + position.toString();
-    } 
+        String colorString = (couleur == 1) ? "BLANC" : "NOIR";
+        return "P(" + colorString + "):" + position.toString();
+    }
 }

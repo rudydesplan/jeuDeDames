@@ -20,14 +20,8 @@ import javax.swing.JLabel;
  * - Licensing details under the GNU General Public License
  * 
  * APropos also contains a "OK" button that, when clicked, disposes the window.
- * 
+ *
  * The window is displayed in the center of the parent window and its size is not resizable.
- * 
- * This class is part of the jeuDeDames package.
- * 
- * @author rudy
- * @version 1.0
- * @since 2023-05-19
  */
 public class APropos extends JDialog {
 

@@ -1,5 +1,4 @@
 package jeuDeDames;
-
 import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
@@ -455,4 +454,13 @@ public class NouvellePartieWindow extends JDialog{
         
         return true;
     }
+
+    public Arbitre getArbitre() {
+        return arbitre;
+    }
+
+    public JeuDeDamesWindow getParent() {
+        return parent;
+    }
+
 }

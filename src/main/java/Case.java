@@ -1,5 +1,4 @@
 package jeuDeDames;
-
 import java.awt.Component;
 import java.awt.Graphics;
 
@@ -175,7 +174,12 @@ public abstract class Case extends JComponent {
      * @see Case#select
      */
     public abstract void setSelect(boolean b);
-    
+
+    public abstract boolean isObligatoire();
+
+    public abstract boolean isSelect();
+
+
     /**
      * Provides a String representation of the Case object,
      * indicating its row and column coordinates.

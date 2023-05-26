@@ -235,4 +235,61 @@ public class JeuDeDamesWindow extends JFrame {
         if(arbitre.getJoueurActif()!=null)
             arbitre.getJoueurActif().startTimer();
     }
+
+    /**
+     * Sets the game's referee.
+     * <p>
+     * This method allows you to inject an instance of the {@code Arbitre} class, 
+     * which controls the flow of the game. This might be useful for testing 
+     * purposes or if you want to change the referee in the middle of the game.
+     * </p>
+     *
+     * @param arbitre the {@code Arbitre} instance to be used for controlling 
+     * the game flow. It should not be {@code null}.
+     */
+    public void setArbitre(Arbitre arbitre) {
+        this.arbitre = arbitre;
+    }
+
+    /**
+     * Returns the panel for player 1.
+     *
+     * This method allows you to access the {@code JoueurPanel} instance for player 1. 
+     * The panel represents the user interface for player 1's game controls and status.
+     * It may return {@code null} if the panel has not been initialized.
+     *
+     * @return the {@code JoueurPanel} for player 1, or {@code null} if it has not been initialized.
+     */
+    public JoueurPanel getJoueur1Panel() {
+        return joueur1Panel;
+    }
+
+    /**
+     * Returns the panel for player 2.
+     *
+     * This method allows you to access the {@code JoueurPanel} instance for player 2. 
+     * The panel represents the user interface for player 2's game controls and status.
+     * It may return {@code null} if the panel has not been initialized.
+     *
+     * @return the {@code JoueurPanel} for player 2, or {@code null} if it has not been initialized.
+     */
+    public JoueurPanel getJoueur2Panel() {
+        return joueur2Panel;
+    }
+
+    /**
+     * Returns the game's referee.
+     * <p>
+     * This method allows you to access the {@code Arbitre} instance controlling the flow of the game. 
+     * This might be useful for checking the state of the game, or for testing purposes.
+     * </p>
+     *
+     * @return the {@code Arbitre} instance currently controlling the game. It may return {@code null} 
+     * if the referee has not been initialized.
+     */
+    public Arbitre getArbitre() {
+        return arbitre;
+    }
+
+
 }

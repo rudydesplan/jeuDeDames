@@ -161,4 +161,60 @@ public class JoueurPanel extends JPanel {
     public void setTimer(int t) {
         temps.setText(getTempsString(t));
     }
+
+    /**
+     * Gets the 'Abandon' button from the player's panel.
+     *
+     * @return JButton: The button which allows the player to abandon the game.
+     */
+    public JButton getAbandon() {
+        return abandon;
+    }
+
+    /**
+     * Gets the 'Annul' button from the player's panel.
+     *
+     * @return JButton: The button which allows the player to cancel a move.
+     */
+    public JButton getAnnul() {
+        return annul;
+    }
+
+    /**
+     * Gets the 'Nom' label from the player's panel.
+     *
+     * @return JLabel: The label which displays the player's name.
+     */
+    public JLabel getNom() {
+        return nom;
+    }
+
+    /**
+     * Gets the 'Nul' button from the player's panel.
+     *
+     * @return JButton: The button which allows the player to propose a draw.
+     */
+    public JButton getNul() {
+        return nul;
+    }
+
+    /**
+     * Gets the 'Temps' label from the player's panel.
+     *
+     * @return JLabel: The label which displays the remaining time for the player.
+     */
+    public JLabel getTemps() {
+        return temps;
+    }
+
+    /**
+     * Gets the 'Joueur' object related to the player's panel.
+     *
+     * @return Joueur: The player to whom this panel belongs.
+     */
+    public Joueur getJoueur() {
+        return joueur;
+    }
+
+    
 }

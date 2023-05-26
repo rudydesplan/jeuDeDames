@@ -265,6 +265,9 @@ public class CaseNoire extends Case implements MouseListener {
     /**
      * Sets whether the square is mandatory or not. If the state changes, it triggers a repaint.
      *
+     * This method can be used to enforce game rules where certain squares are mandatory to move to.
+     * This can be used, for example, when a player is required to capture an opponent's piece.
+     *
      * @param b true if the square is mandatory, false otherwise
      * @see Arbitre#calculCoupObligatoire()
      */
@@ -272,10 +275,13 @@ public class CaseNoire extends Case implements MouseListener {
         obligatoire = b;
         repaint();
     }
-    
+
     /**
      * Sets whether the square is selected or not. If the state changes, it triggers a repaint.
      *
+     * This method can be used in the process of a player choosing a square for their next move. 
+     * When a square is selected, it can visually be made distinct to the player to 
+     * indicate their current choice.
      * @param b true if the square is selected, false otherwise
      * @see CaseNoire#select
      */
@@ -283,4 +289,38 @@ public class CaseNoire extends Case implements MouseListener {
         select = b;
         repaint();
     }
+
+    /**
+     * Sets the piece that is currently on the square.
+     *
+     * @param piece the Piece object to be set on the square
+     */
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+    
+    /**
+     * Checks whether the square is mandatory or not.
+     *
+     * This method can be used to query the current state of a square. If the square is 
+     * mandatory, the method will return true; otherwise, it will return false.
+     * @return boolean value of the square's mandatory status
+     */
+    public boolean isObligatoire(){
+        return obligatoire;
+    }
+
+    /**
+     * Checks whether the square is selected or not.
+     *
+     * This method can be used to query the current state of a square. If the square is 
+     * selected, the method will return true; otherwise, it will return false.
+     * @return boolean value of the square's selected status
+     */
+    public boolean isSelect(){
+        return select;
+    }
+
+    
+    
 }

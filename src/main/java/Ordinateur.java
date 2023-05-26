@@ -115,4 +115,6 @@ public class Ordinateur extends Joueur {
     public String toString() {
         return "Ordinateur:"+ nom;
     }
+
+    
 }

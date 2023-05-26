@@ -85,4 +85,12 @@ public class CaseBlanche extends Case {
      */
     public void setSelect(boolean b) {
     }
+
+    public boolean isObligatoire(){
+        return false;
+    }
+
+    public boolean isSelect(){
+        return false;
+    }
 }

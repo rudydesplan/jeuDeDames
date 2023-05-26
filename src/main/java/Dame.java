@@ -1,4 +1,5 @@
 package jeuDeDames;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -241,7 +242,6 @@ public class Dame extends Piece {
                 }
             }
 
-            // Direction 1,-1
             //nbPrises = rechercherPremierePrise(iLigne,iColonne,1,-1,rafle,nbPrises);
             // Direction 1,-1
             dLig = 1;
@@ -490,41 +490,32 @@ public class Dame extends Piece {
      * @return the updated number of captures made
      */
     private int prisePossible(int ligne, int colonne, int dLig, int dCol,Rafle rafle, int nbPrises,CaseNoire prise) {
-        
-        Piece p = null;
-        Case c = null;
-        Case c2 = null;
-        if( (c = plateau.get(ligne+dLig,colonne+dCol)) != null) {
-            if( (p = c.getPiece())!= null)  {
-                if(p.getCouleur() != couleur) {
-                    if( (c2 = plateau.get(ligne+2*dLig,colonne+2*dCol)) != null) {
-                        if(c2.getPiece() == null) {
-                            Rafle r = coupObligatoire( (CaseNoire) c);
-                            r.setCasePrise(prise);
-                            if(r.getNbPrises() > nbPrises) {
-                                nbPrises = r.getNbPrises();
-                                rafle.clearCasesSuivantes();
-                                rafle.addRaflesSuivantes(r);
-                                return nbPrises;
-                            }
-                            if(nbPrises>0 && nbPrises == r.getNbPrises()) {
-                                // On doit verifier s'il n'y a pas une rafle equivalente qui commence par la meme case
-                                Rafle r1 = rafle.getRaflesSuivantes(r.getCaseDebut());
-                                if(r1==null)
-                                    // Si il n'y a pas on ajoute simplement la nouvelle rafle trouvee
-                                    rafle.addRaflesSuivantes(r);
-                                else {
-                                    //dans le cas ou une rafle commeneant par la meme case existe deja
-                                    // on ajoute a cette rafle, les nouvelles rafles suivantes trouves.
-                                    for(int i=0;i<r.getNbCasesSuivantes();i++)
-                                        r1.addRaflesSuivantes(r.getRaflesSuivantes(i));
-                                }
-                                return nbPrises;
-                            }
-                            
-                        }
-                    }
+        Piece p;
+        Case c;
+        Case c2;
+        if((c = plateau.get(ligne+dLig,colonne+dCol)) != null && 
+            (p = c.getPiece())!= null && 
+            p.getCouleur() != couleur &&
+            (c2 = plateau.get(ligne+2*dLig,colonne+2*dCol)) != null && 
+            c2.getPiece() == null) {
+                
+            Rafle r = coupObligatoire( (CaseNoire) c);
+            r.setCasePrise(prise);
+            if(r.getNbPrises() > nbPrises) {
+                nbPrises = r.getNbPrises();
+                rafle.clearCasesSuivantes();
+                rafle.addRaflesSuivantes(r);
+                return nbPrises;
+            }
+            if(nbPrises>0 && nbPrises == r.getNbPrises()) {
+                Rafle r1 = rafle.getRaflesSuivantes(r.getCaseDebut());
+                if(r1==null)
+                    rafle.addRaflesSuivantes(r);
+                else {
+                    for(int i=0;i<r.getNbCasesSuivantes();i++)
+                        r1.addRaflesSuivantes(r.getRaflesSuivantes(i));
                 }
+                return nbPrises;
             }
         }
         return nbPrises;
