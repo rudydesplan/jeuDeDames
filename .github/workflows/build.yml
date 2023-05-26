@@ -18,6 +18,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
+          
+      - name: Set up Xvfb
+        run: |
+          sudo apt-get install -y xvfb
+          Xvfb :99 & # start Xvfb on display :99
+          echo "DISPLAY=:99.0" >> $GITHUB_ENV
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
