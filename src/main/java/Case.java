@@ -175,10 +175,24 @@ public abstract class Case extends JComponent {
      */
     public abstract void setSelect(boolean b);
 
+    /**
+     * Checks whether this case is part of an obligatory move.
+     * If this case is part of an obligatory move, it will be drawn in a particular way so that the player can
+     * distinguish squares forming part of an obligatory move from others.
+     *
+     * @return true if this case is part of an obligatory move, false otherwise.
+     */
     public abstract boolean isObligatoire();
 
+    /**
+     * Checks whether this case is selected.
+     * If this case is selected, it will be highlighted. 
+     * The case is highlighted if the player has selected the piece that is on it or if the player positions the piece that he
+     * wants to move to this square. The case is highlighted only if the potential move is valid.
+     *
+     * @return true if this case is selected, false otherwise.
+     */
     public abstract boolean isSelect();
-
 
     /**
      * Provides a String representation of the Case object,
