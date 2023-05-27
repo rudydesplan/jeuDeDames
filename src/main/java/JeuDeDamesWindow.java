@@ -48,24 +48,42 @@ public class JeuDeDamesWindow extends JFrame {
      */
     private static final float posY = (float) 1/6;
 
-    /**
-     * Main method to run the checkers game.
-     * @param args Command-line arguments (not used).
-     */
-    public static void main(String[] args) {
-        JeuDeDamesWindow jeuDeDamesWindow = new JeuDeDamesWindow();
-        jeuDeDamesWindow.setVisible(true);
-    }
 
+    /**
+     * The {@code Arbitre} instance acting as the game's referee.
+     * This field is marked as transient to be excluded from serialization.
+     * The referee manages the game's state and enforces its rules.
+     */
     private transient Arbitre arbitre;
-    
+
+    /**
+     * The {@code JoueurPanel} instance for player 1.
+     * This panel represents the user interface for player 1's game controls and status.
+     * Initially set to {@code null}, it will be initialized when the game starts or a new game begins.
+     */
     private JoueurPanel joueur1Panel = null;
 
+    /**
+     * The {@code JoueurPanel} instance for player 2.
+     * This panel represents the user interface for player 2's game controls and status.
+     * Initially set to {@code null}, it will be initialized when the game starts or a new game begins.
+     */
     private JoueurPanel joueur2Panel = null;
 
+    /**
+     * The main {@code JPanel} instance for the game window.
+     * This panel contains all other GUI components, including player panels and the game board.
+     * Initially set to {@code null}, it will be initialized in the constructor of the {@code JeuDeDamesWindow} class.
+     */
     private JPanel pane = null;
 
+    /**
+     * The {@code Plateau} instance representing the checkers game board.
+     * This object manages the visual representation and state of the game board, 
+     * including the checkers in their respective positions.
+     */
     private Plateau plateau;
+
     
     /**
      * Constructs a new JeuDeDamesWindow. Initializes the window settings, creates the menu bar, and sets up the game board.
@@ -144,6 +162,15 @@ public class JeuDeDamesWindow extends JFrame {
         arbitre = new Arbitre(plateau,this);
         plateau.setArbitre(arbitre);
         setContentPane(pane);
+    }
+
+    /**
+     * Main method to run the checkers game.
+     * @param args Command-line arguments (not used).
+     */
+    public static void main(String[] args) {
+        JeuDeDamesWindow jeuDeDamesWindow = new JeuDeDamesWindow();
+        jeuDeDamesWindow.setVisible(true);
     }
     
     /**
@@ -290,6 +317,4 @@ public class JeuDeDamesWindow extends JFrame {
     public Arbitre getArbitre() {
         return arbitre;
     }
-
-
 }
