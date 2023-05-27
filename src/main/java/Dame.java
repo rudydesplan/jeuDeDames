@@ -302,7 +302,6 @@ public class Dame extends Piece {
                 ligne += dLig;
                 colonne += dCol;
                 
-                // Replace "break" with the condition to stop the loop
                 if(ligne<0 || ligne > 9 || colonne <0 || colonne > 9)
                     continueLoop = false;
                 else {
@@ -344,7 +343,7 @@ public class Dame extends Piece {
                                 }
                             }
                         }
-                        // Replace the last "break" statement with the condition to stop the loop
+
                         if(p != null && p.getCouleur() != couleur) {
                             continueLoop = false;
                         }
@@ -370,7 +369,6 @@ public class Dame extends Piece {
                     iLigne += dLig;
                     iColonne += dCol;
                     
-                    // Replace "break" with the condition to stop the loop
                     if(iLigne <0 || iLigne > 9 || iColonne <0 || iColonne >9 || plateau.get(iLigne,iColonne).getPiece()!=null)
                         continueLoop_ = false;
                 }
